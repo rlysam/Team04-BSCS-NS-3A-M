@@ -1,0 +1,34 @@
+<?php
+
+    class Register extends CI_Controller {
+
+        public function generate_verification_code() {
+
+            $CHARS_LENGTH = 8;
+
+            $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            $chars_len = strlen($chars);
+            $order = '';
+            $code = '';
+
+
+            for ($i = 0; $i < $CHARS_LENGTH; $i++){
+                //generate at least one uppercase
+                if ($i == 0) {
+                    $order[$i] = chr(rand(65, 90));
+                 //generate at least one lowercase
+                } else if ($i == 1) {
+                    $order[$i] = chr(rand(97,122));
+                //generate at least one number (0-9)
+                } else if ($i == 2) {
+                    $order[$i] = chr(rand(48,57));
+                } else {
+                    $order[$i] = $chars[rand(0, $chars_len) - 1];
+                }
+            }
+
+            $code = str_shuffle($order);
+
+            return $code;
+        }
+    }
