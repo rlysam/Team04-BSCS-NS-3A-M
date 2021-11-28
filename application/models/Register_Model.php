@@ -10,5 +10,17 @@ class Register_Model extends CI_Model {
 
         return $query -> result_array();
     }
+
+
+    //FOR TESTING
+    function insert_user(){
+        $data = array(
+            'title' => 'My title',
+            'name' => 'My Name',
+            'date' => 'My date'
+        );
+    
+        $this->db->insert($this->db_table, $data);
+    }
 	
 }

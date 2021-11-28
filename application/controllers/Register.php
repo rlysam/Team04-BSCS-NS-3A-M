@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+header('Access-Control-Allow-Origin: *'); //Since flutter is not a static url
 
 class Register_Controller extends CI_Controller {
 
@@ -53,5 +54,24 @@ class Register_Controller extends CI_Controller {
         mail("kiroro.christianne@gmail.com","Pahire-am verification code", "Enter this verification code: ". $code, "From: forheejin123@gmail.com");
         $output = array('code' => $code);
         echo json_encode($output);
+    }
+
+    //FOR TESTING
+    public function insert_user(){
+        
+        $this->load->model("Register_Model");
+        $data = $this->Register_Model->insert_user();
+    }
+
+    public function get_post(){
+        $input = $this->input->post();
+
+        //log_message('Debug', 'lumabas = '. $output);
+        
+        if(isset($input['fname'])){
+            log_message('Debug', 'post = '.print_r($input, true));
+        }
+        else
+            log_message('Debug', 'geegee ;pds = '.print_r($input, true));
     }
 }
