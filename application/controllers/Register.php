@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *'); //Since flutter is not a static url
 
-class Register_Controller extends CI_Controller {
+class Register extends CI_Controller {
 
 	public function index()
 	{
@@ -49,11 +49,29 @@ class Register_Controller extends CI_Controller {
     }
 
     public function send_email_verification(){
+        $this->load->library('email');
         $code = $this->generate_verification_code();
-        
-        mail("kiroro.christianne@gmail.com","Pahire-am verification code", "Enter this verification code: ". $code, "From: forheejin123@gmail.com");
-        $output = array('code' => $code);
-        echo json_encode($output);
+        $this->load->config('email');
+    
+        $from = $this->config->item('smtp_user');
+        $to = 'marvinray.dalida@tup.edu.ph';
+        $subject = 'Pahiream verification code';
+        $message = $code;
+
+        $this->email->set_newline("\r\n");
+        $this->email->from($from);
+        $this->email->to($to);
+        $this->email->subject($subject);
+        $this->email->message($message);
+
+        if ($this->email->send()) {
+            echo 'Email sent';
+            $output = array('code' => $code);
+            echo json_encode($output);
+        } else {
+            show_error($this->email->print_debugger());
+        }
+
     }
 
     //FOR TESTING
