@@ -23,7 +23,6 @@ class Login extends CI_Controller {
         $email = $this->input->post('email');
         $password = $this->input->post('password');
         $data = $this->Login_Model->get_user_by_email($email);
-        $temp = 'password';
 
         //check if array is "empty"
         //di nagana empty($data) may explanation si stackoverflow: https://stackoverflow.com/questions/2216052/how-to-check-whether-an-array-is-empty-using-php
@@ -31,7 +30,7 @@ class Login extends CI_Controller {
         if (!empty($filtered_arr)) {
             // user exists
             // check if matches with password
-            $is_match = $this->check_password_match($password, $temp);
+            $is_match = $this->check_password_match($password, $data[password]);
 
             if ($is_match) {
                 $this->output
