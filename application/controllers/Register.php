@@ -78,7 +78,16 @@ class Register extends CI_Controller {
     public function insert_user(){
         
         $this->load->model("Register_Model");
-        $data = $this->Register_Model->insert_user();
+        if($this->input->post()){
+            $this->output->set_header('HTTP/1.1 201 GOODS ATA');
+            
+            $this->Register_Model->insert_user();
+            $data = $this->Register_Model->get_user($_POST['email'],$_POST['tup_id']);
+
+            $this->output->set_content_type('application/json')->set_output(json_encode($data[0]));
+        }
+
+        
     }
 
     public function get_post(){
