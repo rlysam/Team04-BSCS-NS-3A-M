@@ -93,7 +93,6 @@ class Register extends CI_Controller {
 
     public function verify_user() {
 
-
         // load register model
         $this->load->model('Register_Model');
 
@@ -102,26 +101,15 @@ class Register extends CI_Controller {
         $tup_id = $this->input->post('tup_id');
         $data = $this->Register_Model->get_user($email, $tup_id);
 
-        // check if the post data is empty
+        // check if the array is empty
+        // if array is empty; user isnt registered yet
         $filtered_data = array_filter($data); 
         if (!empty($filtered_data)) {
-
-            // check if user exists within database
-            $email_count = count($data);
-
-            if ($email_count > 0) {
-                //email exists; user is already registered
-                // generate error 409 response
-                $this->output->set_status_header('409');
-            } else {
-                //send verification code
-                $this->send_email_verification($email);
-            }
-
+            //generate error 409 response
+            $this->output->set_status_header('409');
         } else {
-            // generate error 400 response
-            $this->output->set_status_header('400');
-
+            // email isnt registered yet
+            $this->send_email_verification($email);
         }
     }
 
