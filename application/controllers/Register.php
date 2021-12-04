@@ -48,13 +48,13 @@ class Register extends CI_Controller {
         return $code;
     }
 
-    public function send_email_verification(){
+    public function send_email_verification($email){
         $this->load->library('email');
         $code = $this->generate_verification_code();
         $this->load->config('email');
     
         $from = $this->config->item('smtp_user');
-        $to = 'marvinray.dalida@tup.edu.ph';
+        $to = $email;
         $subject = 'Pahiream verification code';
         $message = $code;
 
@@ -65,9 +65,10 @@ class Register extends CI_Controller {
         $this->email->message($message);
 
         if ($this->email->send()) {
-            echo 'Email sent';
+            // echo 'Email sent';
             $output = array('code' => $code);
-            echo json_encode($output);
+            // echo json_encode($output);
+            $this->output->set_content_type('application/json')->set_output(json_encode($output));
         } else {
             show_error($this->email->print_debugger());
         }
@@ -89,6 +90,49 @@ class Register extends CI_Controller {
 
         
     }
+
+    public function verify_user() {
+
+
+        // load register model
+        $this->load->model('Register_Model');
+
+        // receive post request from front-end
+        $email = $this->input->post('email');
+        $tup_id = $this->input->post('tup_id');
+        $data = $this->Register_Model->get_user($email, $tup_id);
+
+        // check if the post data is empty
+        $filtered_data = array_filter($data); 
+        if (!empty($filtered_data)) {
+
+            // check if user exists within database
+            $email_count = count($data);
+
+            if ($email_count > 0) {
+                //email exists; user is already registered
+                // generate error 409 response
+                $this->output->set_status_header('409');
+            } else {
+                //send verification code
+                $this->send_email_verification($email);
+            }
+
+        } else {
+            // generate error 400 response
+            $this->output->set_status_header('400');
+
+        }
+    }
+
+
+    //after receiveing the email, user must enter the verification code 
+    public function register_user() {
+        
+        //receive post request from flutter
+        $code = $this->input->post('code');
+    }
+
 
     public function get_post(){
         $input = $this->input->post();
