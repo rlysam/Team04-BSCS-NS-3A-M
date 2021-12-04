@@ -71,6 +71,7 @@ class Register extends CI_Controller {
             $this->output->set_content_type('application/json')->set_output(json_encode($output));
         } else {
             show_error($this->email->print_debugger());
+            $this->output->set_status_header('502');
         }
 
     }
@@ -88,7 +89,6 @@ class Register extends CI_Controller {
             $this->output->set_content_type('application/json')->set_output(json_encode($data[0]));
         }
 
-        
     }
 
     public function verify_user() {
@@ -120,19 +120,11 @@ class Register extends CI_Controller {
 
         } else {
             // generate error 400 response
-            $this->output->set_status_header('400');
+            $this->output->set_status_header('200');
+            $this->send_email_verification($email);
 
         }
     }
-
-
-    //after receiveing the email, user must enter the verification code 
-    public function register_user() {
-        
-        //receive post request from flutter
-        $code = $this->input->post('code');
-    }
-
 
     public function get_post(){
         $input = $this->input->post();
