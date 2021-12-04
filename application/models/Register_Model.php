@@ -5,11 +5,11 @@ class Register_Model extends CI_Model {
 
     private $db_table = "users";
 
-    public function get_user($f_name = null, $tup_id = null){
+    public function get_user($email = null, $tup_id = null){
 
-        if($f_name != null && $tup_id != null){
-            $this->db->where('email', $_POST['email']);
-            $this->db->where('tup_id', $_POST['tup_id']);
+        if($email != null && $tup_id != null){
+            $this->db->where('email', $email);
+            $this->db->where('tup_id', $tup_id);
         }
         $query = $this->db->get($this->db_table);
 

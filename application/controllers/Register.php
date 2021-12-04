@@ -102,31 +102,16 @@ class Register extends CI_Controller {
         $tup_id = $this->input->post('tup_id');
         $data = $this->Register_Model->get_user($email, $tup_id);
 
-        // check if the post data is empty
-        $filtered_data = array_filter($data); 
-        if (!empty($filtered_data)) {
-
+        if (!empty($data)) {
             // check if user exists within database
-            $email_count = count($data);
-
-            if ($email_count > 0) {
-                //email exists; user is already registered
-                // generate error 409 response
-                $this->output->set_status_header('409');
-            } else {
-                //send verification code
-                $this->send_email_verification($email);
-            }
-
-        } else {
-            // generate error 400 response
-            $this->output->set_status_header('200');
+            $this->output->set_status_header('409');
+            echo json_encode($data);
+        } else if(empty($data)) {
             $this->send_email_verification($email);
-
         }
     }
 
-    public function get_post(){
+    /*public function get_post(){
         $input = $this->input->post();
 
         //log_message('Debug', 'lumabas = '. $output);
@@ -136,5 +121,5 @@ class Register extends CI_Controller {
         }
         else
             log_message('Debug', 'geegee ;pds = '.print_r($input, true));
-    }
+    }*/
 }
