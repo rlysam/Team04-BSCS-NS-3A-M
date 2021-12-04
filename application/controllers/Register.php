@@ -93,7 +93,6 @@ class Register extends CI_Controller {
 
     public function verify_user() {
 
-
         // load register model
         $this->load->model('Register_Model');
 
