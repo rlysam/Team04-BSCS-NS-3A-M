@@ -48,13 +48,13 @@ class Register extends CI_Controller {
         return $code;
     }
 
-    public function send_email_verification(){
+    public function send_email_verification($email){
         $this->load->library('email');
         $code = $this->generate_verification_code();
         $this->load->config('email');
     
         $from = $this->config->item('smtp_user');
-        $to = 'marvinray.dalida@tup.edu.ph';
+        $to = $email;
         $subject = 'Pahiream verification code';
         $message = $code;
 
@@ -65,11 +65,13 @@ class Register extends CI_Controller {
         $this->email->message($message);
 
         if ($this->email->send()) {
-            echo 'Email sent';
+            // echo 'Email sent';
             $output = array('code' => $code);
-            echo json_encode($output);
+            // echo json_encode($output);
+            $this->output->set_content_type('application/json')->set_output(json_encode($output));
         } else {
             show_error($this->email->print_debugger());
+            $this->output->set_status_header('502');
         }
 
     }
@@ -87,10 +89,28 @@ class Register extends CI_Controller {
             $this->output->set_content_type('application/json')->set_output(json_encode($data[0]));
         }
 
-        
     }
 
-    public function get_post(){
+    public function verify_user() {
+
+        // load register model
+        $this->load->model('Register_Model');
+
+        // receive post request from front-end
+        $email = $this->input->post('email');
+        $tup_id = $this->input->post('tup_id');
+        $data = $this->Register_Model->get_user($email, $tup_id);
+
+        if (!empty($data)) {
+            // check if user exists within database
+            $this->output->set_status_header('409');
+            echo json_encode($data);
+        } else if(empty($data)) {
+            $this->send_email_verification($email);
+        }
+    }
+
+    /*public function get_post(){
         $input = $this->input->post();
 
         //log_message('Debug', 'lumabas = '. $output);
@@ -100,5 +120,5 @@ class Register extends CI_Controller {
         }
         else
             log_message('Debug', 'geegee ;pds = '.print_r($input, true));
-    }
+    }*/
 }
