@@ -113,15 +113,6 @@ class Register extends CI_Controller {
         }
     }
 
-
-    //after receiveing the email, user must enter the verification code 
-    public function register_user() {
-        
-        //receive post request from flutter
-        $code = $this->input->post('code');
-    }
-
-
     public function get_post(){
         $input = $this->input->post();
 
