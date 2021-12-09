@@ -1,6 +1,7 @@
 
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+header('Access-Control-Allow-Origin: *');
 
 
 class Pahiram_Post extends CI_Controller {
