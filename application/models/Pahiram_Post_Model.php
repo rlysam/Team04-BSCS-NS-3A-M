@@ -3,8 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Pahiram_Post_Model extends CI_Model {
     
-    private $table = 'pahiream_post';
-    private $users_table = 'users';
+    private $table = 'pahiram_post';
 
     // create post
     function insert() {
