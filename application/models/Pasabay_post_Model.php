@@ -11,10 +11,15 @@ class Pasabay_post_Model extends CI_Model {
         return $query -> result_array();
     }
 
-
-    //FOR TESTING
     function create_post(){
         return $this->db->insert($this->db_table, $this->input->post());
     }
 	
+    function deactivate_post($post_id){
+        $this->db->set('status', 'deactivated');
+        $this->db->where('post_id',$post_id);
+        $this->db->update($this->db_table);
+        return ($this->db->affected_rows() > 0) ? '200' : '409';
+    }
+
 }

@@ -9,7 +9,7 @@ class Pasabay_post extends CI_Controller {
 
         $data = $this->Pasabay_post_Model->get_post();
 
-        $output = json_encode($data);
+        $output = json_encode($data[0]);
         echo $output;
     }
 
@@ -25,5 +25,11 @@ class Pasabay_post extends CI_Controller {
             }
             echo json_encode($this->input->post());
         }
+    }
+
+    function deactivate_post($post_id){
+        $this->load->model('Pasabay_post_Model');
+        $status_code = $this->Pasabay_post_Model->deactivate_post($post_id);
+        $this->output->set_status_header($status_code);
     }
 }
