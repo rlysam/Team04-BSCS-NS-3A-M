@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $this->db->set($flag, $data);
             $this->db->where('item_id', $item_id);
             $this->db->update($this->table);
-            return ($this->db->affected_rows() > 0) ? '200' : '404'; // pa correct na lang kung ano tamang error code
+            return ($this->db->affected_rows() > 0) ? '200' : '404'; 
         }   
         
         function update_item($item_id) {
@@ -21,8 +21,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $this->db->where('item_id', $item_id);
             $this->db->update($this->table);
 
-            return ($this->db->affected_rows() > 0) ? '200' : '404'; // pa correct na lang kung ano tamang error code
+            return ($this->db->affected_rows() > 0) ? '200' : '404'; 
         }
+
         function get_item_quantity($item_id) {
             $this->db->select('quantity');
             $this->db->where('item_id', $item_id);

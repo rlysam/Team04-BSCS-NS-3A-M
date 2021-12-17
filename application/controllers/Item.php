@@ -27,15 +27,13 @@ header('Access-Control-Allow-Origin: *');
             echo json_encode($data[0]);
         }
 
-        // di ako sure mismong drop natin yung row or deactivate na lang din item         
-        function delete_item(){}
-
         // di rin ako sure kung row na eedit at once or modular siya
 
         // edit entire specific row
-        function edit_item($item_id){
+        function edit_item(){
             $data = array(
-                'item_name' => $this->input->post('item_id'),
+                'item_id' => $this->input->post('item_id'),
+                'item_name' => $this->input->post('item_name'),
                 'quantity' => $this->input->post('quantity'),
                 'description' => $this->input->post('description')
             );
@@ -48,51 +46,68 @@ header('Access-Control-Allow-Origin: *');
             
         }
 
-        function edit_item_name($item_id, $flag = 'item_name'){
+        function edit_item_name(){
+            $flag = 'item_name';
             $this->load->model('Item_Model');
-            $data = $this->Item_Model->get_item_name($item_id);
-            $status_code = '404'; //default 
 
-            if (empty($item_name))
-                $status_code = '404';
+            $item_id = $this->input->post('item_id');
+            $data = $this->input->post($flag);
+
+            if (empty($data) and empty($item_id))
+                $this->output->set_status_header('404');
             else {
-                $this->Item_Model->update($item_id, $flag, $item_name);
-                $status_code = '200';
+                $this->Item_Model->update($item_id, $flag, $data);
+                $this->output->set_status_header('200');
             }
 
-            $this->output->set_status_header($status_code);
         }
 
-        function edit_item_description($item_id, $flag = 'description'){
+        function edit_item_description(){
+            $flag = 'description';
             $this->load->model('Item_Model');
-            $data = $this->Item_Model->get_item_description($item_id);
-            $status_code = '404'; //default 
 
+            $item_id = $this->input->post('item_id');
+            $data = $this->input->post($flag);
 
-            if (empty($item_name))
-                $status_code = '404';
+            if (empty($data) and $empty($item_id))
+                $this->output->set_status_header('404');
             else {
-                $this->Item_Model->update($item_id, $flag, $item_name);
-                $status_code = '200';
+                $this->Item_Model->update($item_id, $flag, $data);
+                $this->output->set_status_header('200');
             }
 
-            $this->output->set_status_header($status_code);
         }
         
-        function edit_quantity($item_id, $flag = 'quantity'){
+        function edit_quantity(){
+            $flag = 'quantity';
             $this->load->model('Item_Model');
-            $data = $this->Item_Model->get_quantity($item_id);
-            $status_code = '404'; //default 
 
-            if (empty($item_name))
-                $status_code = '404';
+            $item_id = $this->input->post('item_id');
+            $data = $this->input->post($flag);
+
+            if (empty($data) && empty($item_id))
+                $this->output->set_status_header('404');
             else {
-                $this->Item_Model->update($item_id, $flag, $item_name);
-                $status_code = '200';
+                $this->Item_Model->update($item_id, $flag, $data);
+                $this->output->set_status_header('200');
             }
 
-            $this->output->set_status_header($status_code);
         }
 
+        function deactivate() {
+            $flag = 'status';
+            $this->load->model('Item_Model');
+            
+            $item_id = $this->input->post('item_id');
+            $data = $this->input->post($flag);
+
+
+            if (empty($data) and empty($item_id))
+                $this->output->set_status_header('404');
+            else {
+                $this->Item_Model->update($item_id, $flag, $data);
+                $this->output->set_status_header('200');
+            }
+        }
 
     }
