@@ -49,7 +49,6 @@ header('Access-Control-Allow-Origin: *');
         }
 
         function edit_item_name($item_id, $flag = 'item_name'){
-            $flag = 'item_name';
             $this->load->model('Item_Model');
             $data = $this->Item_Model->get_item_name($item_id);
             $status_code = '404'; //default 
@@ -65,7 +64,6 @@ header('Access-Control-Allow-Origin: *');
         }
 
         function edit_item_description($item_id, $flag = 'description'){
-            $flag = 'description';
             $this->load->model('Item_Model');
             $data = $this->Item_Model->get_item_description($item_id);
             $status_code = '404'; //default 
@@ -82,7 +80,6 @@ header('Access-Control-Allow-Origin: *');
         }
         
         function edit_quantity($item_id, $flag = 'quantity'){
-            $flag = '';
             $this->load->model('Item_Model');
             $data = $this->Item_Model->get_quantity($item_id);
             $status_code = '404'; //default 
