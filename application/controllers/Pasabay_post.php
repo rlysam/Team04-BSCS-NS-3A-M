@@ -50,13 +50,9 @@ class Pasabay_post extends CI_Controller {
     }
 
     public function get_image(){
+        $this->load->helper('file');
         $filename = $this->input->get('path');
-        $handle = fopen($filename, "rb"); 
-        $contents = fread($handle, filesize($filename)); 
-        fclose($handle); 
-        
-        header("content-type: image"); 
-        
-        echo $contents; 
+        header('Content-type: ' . get_mime_by_extension($filename));
+        echo file_get_contents($filename); 
     }
 }
