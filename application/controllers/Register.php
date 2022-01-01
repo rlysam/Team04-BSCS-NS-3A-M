@@ -4,11 +4,6 @@ header('Access-Control-Allow-Origin: *'); //Since flutter is not a static url
 
 class Register extends CI_Controller {
 
-	public function index()
-	{
-		$this->load->view('welcome_message');
-	}
-
     public function get_user(){
         $this->load->model("Register_Model");
 
