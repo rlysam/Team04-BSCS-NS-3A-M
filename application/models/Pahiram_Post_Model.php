@@ -7,9 +7,19 @@ class Pahiram_Post_Model extends CI_Model {
 
     // create post
     function insert() {
-        $this->db->insert($this->table, $this->input->post());
+        return $this->db->insert($this->table, $this->input->post());
     }
     
+    function insert_image_location($path){
+        $file_extension = pathinfo($path, PATHINFO_EXTENSION);
+        $input['image_location'] = 'uploads/posts/pahiram/' . $this->db->insert_id() . "." . $file_extension;
+        $this->db->set($input);
+        $this->db->where('post_id',$this->db->insert_id());
+        $this->db->update($this->table);
+
+        return $input['image_location'];
+    }
+
     // get post (by id)
     function get_post() {
         $query = $this->db->get($this->table);

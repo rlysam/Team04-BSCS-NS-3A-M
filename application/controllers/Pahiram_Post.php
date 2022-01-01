@@ -13,25 +13,51 @@ class Pahiram_Post extends CI_Controller {
     private $STATUS_DEACTIVATED = 'deactivated';
 
 
-    function __constructor() {
-        parent::__constructor();
-    }
+    #function __constructor() {
+    #    parent::__constructor();
+    #}
 
 
     function create_post() {
 
         if ($this->input->post() > 0) {
             $this->load->model('Pahiram_Post_Model');
-            if($this->Pahiram_Post_Model->insert())
-                $this->output->set_status_header('200');
-        } else {
-            $this->set_header_status('400');
-        }
 
+            $path = $this->input->post('path');
+            unset($_POST['path']);
+
+            if($this->Pahiram_Post_Model->insert()){
+                $this->output->set_status_header('201');
+
+                $new_path = $this->Pahiram_Post_Model->insert_image_location($path);
+                $this->upload_image($path,$new_path);
+            }
+                
+        } else {
+            $this->output->set_header_status('400');
+        }
         echo json_encode($this->input->post());
 
     }
+    
 
+    public function upload_image($path, $new_path){
+        if (!copy($path, $new_path)) {
+            return false;
+        }
+        return true;
+    }
+
+    public function get_image(){
+        $filename = $this->input->get('path');
+        $handle = fopen($filename, "rb"); 
+        $contents = fread($handle, filesize($filename)); 
+        fclose($handle); 
+        
+        header("content-type: image"); 
+        
+        echo $contents; 
+    }
     public function get_post() {
 
         $this->load->model('Pahiram_Post_Model');
