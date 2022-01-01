@@ -1,8 +1,6 @@
-
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
-
 
 class Pahiram_Post extends CI_Controller {
     
@@ -20,7 +18,7 @@ class Pahiram_Post extends CI_Controller {
 
     function create_post() {
 
-        if ($this->input->post() > 0) {
+        if($this->input->post() > 0){
             $this->load->model('Pahiram_Post_Model');
 
             $path = $this->input->post('path');
@@ -30,16 +28,19 @@ class Pahiram_Post extends CI_Controller {
                 $this->output->set_status_header('201');
 
                 $new_path = $this->Pahiram_Post_Model->insert_image_location($path);
-                $this->upload_image($path,$new_path);
+
+                $this->upload_image($path, $new_path);
             }
-                
-        } else {
-            $this->output->set_header_status('400');
+            else{
+                $this->output->set_status_header('409');
+            }
+
+            echo json_encode($this->input->post());
         }
-        echo json_encode($this->input->post());
 
     }
     
+
 
     public function upload_image($path, $new_path){
         if (!copy($path, $new_path)) {
@@ -58,6 +59,7 @@ class Pahiram_Post extends CI_Controller {
         
         echo $contents; 
     }
+
     public function get_post() {
 
         $this->load->model('Pahiram_Post_Model');
