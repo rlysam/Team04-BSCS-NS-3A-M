@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pasabay_post_Model extends CI_Model {
+class Pasabay_post_model extends CI_Model {
 
     private $db_table = "pasabay_post";
 

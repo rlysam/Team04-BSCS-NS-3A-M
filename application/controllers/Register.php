@@ -5,9 +5,9 @@ header('Access-Control-Allow-Origin: *'); //Since flutter is not a static url
 class Register extends CI_Controller {
 
     public function get_user(){
-        $this->load->model("Register_Model");
+        $this->load->model("register_model");
 
-        $data = $this->Register_Model->get_user();
+        $data = $this->register_model->get_user();
 
         $output = json_encode($data);
         echo $output;
@@ -74,12 +74,12 @@ class Register extends CI_Controller {
     //FOR TESTING
     public function insert_user(){
         
-        $this->load->model("Register_Model");
+        $this->load->model("register_model");
         if($this->input->post()){
             $this->output->set_header('HTTP/1.1 201 GOODS ATA');
             
-            $this->Register_Model->insert_user();
-            $data = $this->Register_Model->get_user($_POST['email'],$_POST['tup_id']);
+            $this->register_model->insert_user();
+            $data = $this->register_model->get_user($_POST['email'],$_POST['tup_id']);
 
             $this->output->set_content_type('application/json')->set_output(json_encode($data[0]));
         }
@@ -89,12 +89,12 @@ class Register extends CI_Controller {
     public function verify_user() {
 
         // load register model
-        $this->load->model('Register_Model');
+        $this->load->model('register_model');
 
         // receive post request from front-end
         $email = $this->input->post('email');
         $tup_id = $this->input->post('tup_id');
-        $data = $this->Register_Model->get_user($email, $tup_id);
+        $data = $this->register_model->get_user($email, $tup_id);
 
         if (!empty($data)) {
             // check if user exists within database

@@ -10,20 +10,20 @@ class Login extends CI_Controller {
 	}
 
 	public function get_user(){
-        $this->load->model("Login_Model");
+        $this->load->model("login_model");
 
-        $data = $this->Login_Model->get_user();
+        $data = $this->login_model->get_user();
 
         $output = json_encode($data);
         echo $output;
     }
 
     public function get_user_by_email() {
-        $this->load->model("Login_Model");
+        $this->load->model("login_model");
 
         $email = $this->input->post('email');
         $password = $this->input->post('password');
-        $data = $this->Login_Model->get_user_by_email($email);
+        $data = $this->login_model->get_user_by_email($email);
 
         //check if array is "empty"
         //di nagana empty($data) may explanation si stackoverflow: https://stackoverflow.com/questions/2216052/how-to-check-whether-an-array-is-empty-using-php
