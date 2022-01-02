@@ -6,26 +6,25 @@ class Pasabay_post extends CI_Controller {
 
     public function get_post(){
         $this->load->model("pasabay_post_model");
-
         $data = $this->pasabay_post_model->get_post();
-
-        $output = json_encode($data[0]);
+        $output = json_encode($data);
         echo $output;
     }
 
-	function create_post(){
-        if($this->input->post() > 0){
-            $this->load->model('pasabay_post_model');
+	public function create_post(){
 
+        if($this->input->post() > 0){
+
+            $this->load->model('pasabay_post_model');
             $path = $this->input->post('path');
             unset($_POST['path']);
 
             if($this->pasabay_post_model->create_post()){
+
                 $this->output->set_status_header('201');
-
                 $new_path = $this->pasabay_post_model->insert_image_location($path);
-
                 $this->upload_image($path, $new_path);
+
             }
             else{
                 $this->output->set_status_header('409');
@@ -35,7 +34,7 @@ class Pasabay_post extends CI_Controller {
         }
     }
 
-    function deactivate_post($post_id){
+    public function deactivate_post($post_id){
         $this->load->model('pasabay_post_model');
         $status_code = $this->pasabay_post_model->deactivate_post($post_id);
         $this->output->set_status_header($status_code);
@@ -54,5 +53,22 @@ class Pasabay_post extends CI_Controller {
         $filename = $this->input->get('path');
         header('Content-type: ' . get_mime_by_extension($filename));
         echo file_get_contents($filename); 
+    }
+
+    public function get_total_pages(){
+        $this->load->model('pasabay_post_model');
+        $total_rows = $this->pasabay_post_model->get_total_rows();
+        $total_pages = ceil($total_rows/10);
+
+        echo json_encode($total_pages);
+    }
+
+    public function get_page_items(){
+        $this->load->model('pasabay_post_model');
+        $page_number = $this->input->get('page');
+        $data = $this->pasabay_post_model->get_post($page_number);
+        $output = json_encode($data);
+
+        echo $output;
     }
 }

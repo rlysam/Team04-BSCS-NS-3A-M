@@ -10,25 +10,18 @@ class Pahiram_Post extends CI_Controller {
     private $STATUS_REQUESTING = 'requesting';
     private $STATUS_DEACTIVATED = 'deactivated';
 
-
-    #function __constructor() {
-    #    parent::__constructor();
-    #}
-
-
-    function create_post() {
+    public function create_post() {
 
         if($this->input->post() > 0){
-            $this->load->model('pahiram_post_model');
 
+            $this->load->model('pahiram_post_model');
             $path = $this->input->post('path');
             unset($_POST['path']);
 
             if($this->pahiram_post_model->insert()){
+
                 $this->output->set_status_header('201');
-
                 $new_path = $this->pahiram_post_model->insert_image_location($path);
-
                 $this->upload_image($path, $new_path);
             }
             else{
@@ -37,7 +30,6 @@ class Pahiram_Post extends CI_Controller {
 
             echo json_encode($this->input->post());
         }
-
     }
 
     public function upload_image($path, $new_path){
@@ -60,37 +52,54 @@ class Pahiram_Post extends CI_Controller {
 
         $data = $this->pahiram_post_model->get_post();
 
-        echo json_encode($data[0]);
+        echo json_encode($data);
     }
 
-    function set_post_available($post_id) { 
+    public function set_post_available($post_id) { 
         $this->load->model('pahiram_post_model');
         $status_code = $this->pahiram_post_model->set_status($post_id, $this->STATUS_AVAILABLE);
         $this->output->set_status_header($status_code);
     }
 
-    function set_post_unavailable($post_id) {
+    public function set_post_unavailable($post_id) {
         $this->load->model('pahiram_post_model');
         $status_code = $this->pahiram_post_model->set_status($post_id, $this->STATUS_UNAVAILABLE);
         $this->output->set_status_header($status_code);
     }
 
-    function set_post_renting($post_id) {
+    public function set_post_renting($post_id) {
         $this->load->model('pahiram_post_model');
         $status_code = $this->pahiram_post_model->set_status($post_id, $this->STATUS_RENTING);
         $this->output->set_status_header($status_code);
     }
 
-    function set_post_requesting($post_id) {
+    public function set_post_requesting($post_id) {
         $this->load->model('pahiram_post_model');
         $status_code = $this->pahiram_post_model->set_status($post_id, $this->STATUS_REQUESTING);
         $this->output->set_status_header($status_code);
     }
 
-    function deactivate_post($post_id) {
+    public function deactivate_post($post_id) {
         $this->load->model('pahiram_post_model');
         $status_code = $this->pahiram_post_model->set_status($post_id, $this->STATUS_DEACTIVATED);
         $this->output->set_status_header($status_code);
+    }
+
+    public function get_total_pages(){
+        $this->load->model('pahiram_post_model');
+        $total_rows = $this->pahiram_post_model->get_total_rows();
+        $total_pages = ceil($total_rows/10);
+
+        echo json_encode($total_pages);
+    }
+
+    public function get_page_items(){
+        $this->load->model('pahiram_post_model');
+        $page_number = $this->input->get('page');
+        $data = $this->pahiram_post_model->get_post($page_number);
+        $output = json_encode($data);
+
+        echo $output;
     }
 
 }

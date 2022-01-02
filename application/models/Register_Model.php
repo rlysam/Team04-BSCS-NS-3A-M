@@ -18,7 +18,7 @@ class Register_model extends CI_Model {
 
 
     //FOR TESTING
-    function insert_user(){
+    public function insert_user(){
         $this->db->insert($this->db_table, $this->input->post());
     }
 	
