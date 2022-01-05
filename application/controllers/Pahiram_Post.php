@@ -10,6 +10,16 @@ class Pahiram_Post extends CI_Controller {
     private $STATUS_REQUESTING = 'requesting';
     private $STATUS_DEACTIVATED = 'deactivated';
 
+
+    public function get_post() {
+
+        $this->load->model('pahiram_post_model');
+
+        $data = $this->pahiram_post_model->get_post();
+
+        echo json_encode($data);
+    }
+
     public function create_post() {
 
         if($this->input->post() > 0){
@@ -46,15 +56,6 @@ class Pahiram_Post extends CI_Controller {
         echo file_get_contents($filename); 
     }
 
-    public function get_post() {
-
-        $this->load->model('pahiram_post_model');
-
-        $data = $this->pahiram_post_model->get_post();
-
-        echo json_encode($data);
-    }
-
     public function set_post_available($post_id) { 
         $this->load->model('pahiram_post_model');
         $status_code = $this->pahiram_post_model->set_status($post_id, $this->STATUS_AVAILABLE);
@@ -85,7 +86,7 @@ class Pahiram_Post extends CI_Controller {
         $this->output->set_status_header($status_code);
     }
 
-    public function get_total_pages(){
+    /*public function get_total_pages(){
         $this->load->model('pahiram_post_model');
         $total_rows = $this->pahiram_post_model->get_total_rows();
         $total_pages = ceil($total_rows/10);
@@ -95,11 +96,10 @@ class Pahiram_Post extends CI_Controller {
 
     public function get_page_items(){
         $this->load->model('pahiram_post_model');
-        $page_number = $this->input->get('page');
-        $data = $this->pahiram_post_model->get_post($page_number);
+        $data = $this->pahiram_post_model->get_post();
         $output = json_encode($data);
 
         echo $output;
-    }
+    }*/
 
 }

@@ -55,7 +55,7 @@ class Pasabay_post extends CI_Controller {
         echo file_get_contents($filename); 
     }
 
-    public function get_total_pages(){
+    /*public function get_total_pages(){
         $this->load->model('pasabay_post_model');
         $total_rows = $this->pasabay_post_model->get_total_rows();
         $total_pages = ceil($total_rows/10);
@@ -65,10 +65,9 @@ class Pasabay_post extends CI_Controller {
 
     public function get_page_items(){
         $this->load->model('pasabay_post_model');
-        $page_number = $this->input->get('page');
-        $data = $this->pasabay_post_model->get_post($page_number);
+        $data = $this->pasabay_post_model->get_post();
         $output = json_encode($data);
 
         echo $output;
-    }
+    }*/
 }
