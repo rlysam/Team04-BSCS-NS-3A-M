@@ -16,7 +16,8 @@ class Pahiram_Post extends CI_Controller {
         $this->load->model('pahiram_post_model');
 
         $data = $this->pahiram_post_model->get_post();
-
+        
+        $this->output->set_content_type('application/json');
         echo json_encode($data);
     }
 

@@ -7,8 +7,9 @@ class Pasabay_post extends CI_Controller {
     public function get_post(){
         $this->load->model("pasabay_post_model");
         $data = $this->pasabay_post_model->get_post();
-        $output = json_encode($data);
-        echo $output;
+
+        $this->output->set_content_type('application/json');
+        echo json_encode($data);;
     }
 
 	public function create_post(){
@@ -29,7 +30,6 @@ class Pasabay_post extends CI_Controller {
             else{
                 $this->output->set_status_header('409');
             }
-
             echo json_encode($this->input->post());
         }
     }
