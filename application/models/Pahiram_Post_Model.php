@@ -23,7 +23,7 @@ class Pahiram_post_model extends CI_Model {
             return $data;
         }
         else if($this->input->get('post_id') != null){
-            $this->db->where('post_id',$_GET['post_id']);
+            $this->db->where('post_id',$_GET['post_id']);   
             $query = $this->db->get($this->db_table);
 
             $result = $query -> result_array();
@@ -41,16 +41,15 @@ class Pahiram_post_model extends CI_Model {
         return $this->db->insert($this->db_table, $this->input->post());
     }
     
-    function insert_image_location($path){
-        $file_extension = pathinfo($path, PATHINFO_EXTENSION);
+    function insert_image_location(){
+        $image_file = $_FILES['file']['name'];
+        $file_extension = pathinfo($image_file, PATHINFO_EXTENSION);
         $url = "http://localhost/Team04-BSCS-NS-3A-M/pahiram_post/get_image/?path=";
         $input['image_location'] = $url . 'uploads/posts/pahiram/' . $this->db->insert_id() . "." . $file_extension;
-        $new_path = 'uploads/posts/pahiram/' . $this->db->insert_id() . "." . $file_extension;
+        move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/posts/pahiram/' . $this->db->insert_id() . "." . $file_extension);
         $this->db->set($input);
         $this->db->where('post_id',$this->db->insert_id());
         $this->db->update($this->db_table);
-
-        return $new_path;
     }
 
     // set post status post (e.g deactivate post)
@@ -60,9 +59,5 @@ class Pahiram_post_model extends CI_Model {
         $this->db->update($this->db_table);
         return ($this->db->affected_rows() > 0) ? '200' : '409';
     }
-
-    /*public function get_total_rows(){
-        return $this->db->count_all($this->db_table);
-    }*/
     
 }

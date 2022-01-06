@@ -26,14 +26,11 @@ class Pahiram_Post extends CI_Controller {
         if($this->input->post() > 0){
 
             $this->load->model('pahiram_post_model');
-            $path = $this->input->post('path');
-            unset($_POST['path']);
 
             if($this->pahiram_post_model->insert()){
 
                 $this->output->set_status_header('201');
-                $new_path = $this->pahiram_post_model->insert_image_location($path);
-                $this->upload_image($path, $new_path);
+                $this->pahiram_post_model->insert_image_location();
             }
             else{
                 $this->output->set_status_header('409');
@@ -41,13 +38,6 @@ class Pahiram_Post extends CI_Controller {
 
             echo json_encode($this->input->post());
         }
-    }
-
-    public function upload_image($path, $new_path){
-        if (!copy($path, $new_path)) {
-            return false;
-        }
-        return true;
     }
 
     public function get_image(){
@@ -86,21 +76,5 @@ class Pahiram_Post extends CI_Controller {
         $status_code = $this->pahiram_post_model->set_status($post_id, $this->STATUS_DEACTIVATED);
         $this->output->set_status_header($status_code);
     }
-
-    /*public function get_total_pages(){
-        $this->load->model('pahiram_post_model');
-        $total_rows = $this->pahiram_post_model->get_total_rows();
-        $total_pages = ceil($total_rows/10);
-
-        echo json_encode($total_pages);
-    }
-
-    public function get_page_items(){
-        $this->load->model('pahiram_post_model');
-        $data = $this->pahiram_post_model->get_post();
-        $output = json_encode($data);
-
-        echo $output;
-    }*/
 
 }

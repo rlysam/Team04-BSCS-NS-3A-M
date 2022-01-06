@@ -12,19 +12,16 @@ class Pasabay_post extends CI_Controller {
         echo json_encode($data);;
     }
 
-	public function create_post(){
+    public function create_post(){
 
         if($this->input->post() > 0){
 
             $this->load->model('pasabay_post_model');
-            $path = $this->input->post('path');
-            unset($_POST['path']);
 
             if($this->pasabay_post_model->create_post()){
 
                 $this->output->set_status_header('201');
-                $new_path = $this->pasabay_post_model->insert_image_location($path);
-                $this->upload_image($path, $new_path);
+                $this->pasabay_post_model->insert_image_location();
 
             }
             else{
@@ -40,34 +37,10 @@ class Pasabay_post extends CI_Controller {
         $this->output->set_status_header($status_code);
     }
 
-
-    public function upload_image($path, $new_path){
-        if (!copy($path, $new_path)) {
-            return false;
-        }
-        return true;
-    }
-
     public function get_image(){
         $this->load->helper('file');
         $filename = $this->input->get('path');
         header('Content-type: ' . get_mime_by_extension($filename));
         echo file_get_contents($filename); 
     }
-
-    /*public function get_total_pages(){
-        $this->load->model('pasabay_post_model');
-        $total_rows = $this->pasabay_post_model->get_total_rows();
-        $total_pages = ceil($total_rows/10);
-
-        echo json_encode($total_pages);
-    }
-
-    public function get_page_items(){
-        $this->load->model('pasabay_post_model');
-        $data = $this->pasabay_post_model->get_post();
-        $output = json_encode($data);
-
-        echo $output;
-    }*/
 }

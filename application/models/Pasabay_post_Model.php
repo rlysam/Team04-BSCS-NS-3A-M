@@ -38,16 +38,15 @@ class Pasabay_post_model extends CI_Model {
         return $this->db->insert($this->db_table, $this->input->post());
     }
 
-    public function insert_image_location($path){
-        $file_extension = pathinfo($path, PATHINFO_EXTENSION);
+    public function insert_image_location(){
+        $image_file = $_FILES['file']['name'];
+        $file_extension = pathinfo($image_file, PATHINFO_EXTENSION);
         $url = "http://localhost/Team04-BSCS-NS-3A-M/pasabay_post/get_image/?path=";
         $input['image_location'] = $url . 'uploads/posts/pasabay/' . $this->db->insert_id() . "." . $file_extension;
-        $new_path = 'uploads/posts/pasabay/' . $this->db->insert_id() . "." . $file_extension;
+        move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/posts/pasabay/' . $this->db->insert_id() . "." . $file_extension);
         $this->db->set($input);
         $this->db->where('post_id',$this->db->insert_id());
         $this->db->update($this->db_table);
-
-        return $new_path;
     }
 	
     public function deactivate_post($post_id){
@@ -57,9 +56,4 @@ class Pasabay_post_model extends CI_Model {
 
         return ($this->db->affected_rows() > 0) ? '200' : '409';
     }
-
-    /*public function get_total_rows(){
-        return $this->db->count_all($this->db_table);
-    }*/
-
 }
