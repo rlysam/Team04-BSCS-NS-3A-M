@@ -5,8 +5,8 @@ header('Access-Control-Allow-Origin: *'); //Since flutter is not a static url
 class Pasabay_post extends CI_Controller {
 
     public function get_post(){
-        $this->load->model("pasabay_post_model");
-        $data = $this->pasabay_post_model->get_post();
+        $this->load->model("Pasabay_post_model");
+        $data = $this->Pasabay_post_model->get_post();
 
         $this->output->set_content_type('application/json');
         echo json_encode($data);;
@@ -16,12 +16,12 @@ class Pasabay_post extends CI_Controller {
 
         if($this->input->post() > 0){
 
-            $this->load->model('pasabay_post_model');
+            $this->load->model('Pasabay_post_model');
 
-            if($this->pasabay_post_model->create_post()){
+            if($this->Pasabay_post_model->create_post()){
 
                 $this->output->set_status_header('201');
-                $this->pasabay_post_model->insert_image_location();
+                $this->Pasabay_post_model->insert_image_location();
 
             }
             else{
@@ -32,8 +32,8 @@ class Pasabay_post extends CI_Controller {
     }
 
     public function deactivate_post($post_id){
-        $this->load->model('pasabay_post_model');
-        $status_code = $this->pasabay_post_model->deactivate_post($post_id);
+        $this->load->model('Pasabay_post_model');
+        $status_code = $this->Pasabay_post_model->deactivate_post($post_id);
         $this->output->set_status_header($status_code);
     }
 
