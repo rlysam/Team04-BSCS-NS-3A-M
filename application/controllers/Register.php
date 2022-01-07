@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *'); //Since flutter is not a static url
 
 class Register extends CI_Controller {
-
+    
     public function get_user(){
         $this->load->model("register_model");
 
