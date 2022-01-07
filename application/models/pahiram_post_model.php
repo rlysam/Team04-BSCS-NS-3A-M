@@ -1,7 +1,7 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pahiram_post_model extends CI_Model {
+class pahiram_post_model extends CI_Model {
     
     private $db_table = 'pahiram_post';
 
