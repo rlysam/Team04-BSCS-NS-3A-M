@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Register_Model extends CI_Model {
+class Register_model extends CI_Model {
 
     private $db_table = "users";
 
@@ -18,7 +18,7 @@ class Register_Model extends CI_Model {
 
 
     //FOR TESTING
-    function insert_user(){
+    public function insert_user(){
         $this->db->insert($this->db_table, $this->input->post());
     }
 	
