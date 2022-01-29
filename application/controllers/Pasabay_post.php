@@ -31,11 +31,21 @@ class Pasabay_post extends CI_Controller {
         }
     }
 
-    public function deactivate_post($post_id){
+    public function accept(){
+        
+    }
+
+    public function deactivate_post(){
         $this->load->model('Pasabay_post_model');
-        $status_code = $this->Pasabay_post_model->deactivate_post($post_id);
+        $status_code = $this->Pasabay_post_model->deactivate_post($_POST['post_id']);
         $this->output->set_status_header($status_code);
     }
+
+    // public function deactivate_post($post_id){
+    //     $this->load->model('Pasabay_post_model');
+    //     $status_code = $this->Pasabay_post_model->deactivate_post($post_id);
+    //     $this->output->set_status_header($status_code);
+    // }
 
     public function get_image(){
         $this->load->helper('file');

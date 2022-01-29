@@ -71,10 +71,16 @@ class Pahiram_post extends CI_Controller {
         $this->output->set_status_header($status_code);
     }
 
-    public function deactivate_post($post_id) {
+
+    public function deactivate_post() {
         $this->load->model('Pahiram_post_model');
-        $status_code = $this->Pahiram_post_model->set_status($post_id, $this->STATUS_DEACTIVATED);
+        $status_code = $this->Pahiram_post_model->set_status($_POST['post_id'], $this->STATUS_DEACTIVATED);
         $this->output->set_status_header($status_code);
     }
+    // public function deactivate_post($post_id) {
+    //     $this->load->model('Pahiram_post_model');
+    //     $status_code = $this->Pahiram_post_model->set_status($post_id, $this->STATUS_DEACTIVATED);
+    //     $this->output->set_status_header($status_code);
+    // }
 
 }
