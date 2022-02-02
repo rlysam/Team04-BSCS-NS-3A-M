@@ -100,7 +100,7 @@ class Register extends CI_Controller
             // check if user exists within database
             $this->output->set_status_header('409');
             echo json_encode($data);
-        } else if (empty($data)){
+        } else{
             $this->send_email_verification($email);
         }
     }
