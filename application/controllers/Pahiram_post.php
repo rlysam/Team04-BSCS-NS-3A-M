@@ -61,7 +61,7 @@ class Pahiram_post extends CI_Controller
     public function deactivate_post()
     {
         $this->load->model('Pahiram_post_model');
-        $status_code = $this->Pahiram_post_model->set_status($_POST['post_id']);
+        $status_code = $this->Pahiram_post_model->set_status($this->input->post('post_id'));
         $this->output->set_status_header($status_code);
     }
 
