@@ -7,7 +7,8 @@ class Pahiram_chat_model extends CI_Model
     private $db_table = 'pahiram_chat';
     private $users_table = 'users';
 
-    public function store_message() {
+    public function store_message()
+    {
 
         $user = $this->db->get_where($this->users_table, array('user_id' => (int) $this->input->post('user_id')));
         $user = $user->result_array();
@@ -18,7 +19,8 @@ class Pahiram_chat_model extends CI_Model
         unset($_POST['image']);
         unset($_POST['image_name']);
         $query = $this->db->insert($this->db_table, $this->input->post());
-        if (strcmp($_POST['chat_type'], 'image') == 0) {
+        if (strcmp($_POST['chat_type'], 'image') == 0)
+        {
             $image = base64_decode($imageBase64);
             $file_extension = pathinfo($image_name, PATHINFO_EXTENSION);
             $url = "http://localhost/Team04-BSCS-NS-3A-M/Pahiram_Chat/get_image/?path=";
