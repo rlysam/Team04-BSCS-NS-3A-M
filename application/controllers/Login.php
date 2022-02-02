@@ -2,10 +2,14 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
 
-class Login extends CI_Controller
-{
-    public function get_user()
-    {
+class Login extends CI_Controller {
+
+    public function __construct() {
+        parent::__construct();
+        header('Access-Control-Allow-Origin: *');
+    }
+
+    public function get_user() {
         $this->load->model("Login_model");
 
         $data = $this->Login_model->get_user();
@@ -14,8 +18,7 @@ class Login extends CI_Controller
         echo $output;
     }
 
-    public function get_user_by_email()
-    {
+    public function get_user_by_email() {
         $this->load->model("Login_model");
 
         $email = $this->input->post('email');
@@ -24,29 +27,23 @@ class Login extends CI_Controller
 
         $filtered_arr = array_filter($data);
 
-        if (!empty($filtered_arr))
-        {
+        if (!empty($filtered_arr)) {
             $is_match = $this->check_password_match($password, $data['password']);
 
-            if ($is_match)
-            {
+            if ($is_match) {
                 $this->output
                     ->set_content_type('application/json')
                     ->set_output(json_encode($data));
-            } else 
-            {
+            } else {
                 $this->output->set_status_header('401');
             }
-        } else
-        {
+        } else {
             $this->output->set_status_header('404');
         }
     }
 
-    public function check_password_match($password, $post_password)
-    {
-        if (strcmp($password, $post_password) == 0)
-        {
+    public function check_password_match($password, $post_password) {
+        if (strcmp($password, $post_password) == 0) {
             return true;
         }
         return false;

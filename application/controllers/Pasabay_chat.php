@@ -1,8 +1,11 @@
 <?php
 defined('BASEPATH') || exit('No direct script access allowed');
-header('Access-Control-Allow-Origin: *');
 
 class Pasabay_chat extends CI_Controller {
+    public function __construct() {
+        parent::__construct();
+        header('Access-Control-Allow-Origin: *');
+    }
 
     public function send_message() {
         $this->load->model('Pasabay_chat_model');
