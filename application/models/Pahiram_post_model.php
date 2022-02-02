@@ -1,29 +1,31 @@
-<?php 
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pahiram_post_model extends CI_Model {
-    
+class Pahiram_post_model extends CI_Model
+{
+
     private $db_table = 'pahiram_post';
+    private $db_request = 'pahiram_request';
 
 
     // get post (by id)
-    function get_post() {
+    public function get_post()
+    {
 
-        if($this->input->get('page') != null){
+        if ($this->input->get('page') != null) {
             $total_rows  = $this->db->count_all($this->db_table);
-            $total_pages = ceil($total_rows/10);
-            $this->db->where('status','active');
+            $total_pages = ceil($total_rows / 10);
+            $this->db->where('status', 'active');
             $query = $this->db->get($this->db_table, 10, ($this->input->get('page') - 1) * 10);
 
             $data = array(
                 "total_posts" => $total_rows,
                 "total_pages" => $total_pages,
-                "posts" => $query -> result_array()
+                "posts" => $query->result_array()
             );
 
             return $data;
-        }
-        else if($this->input->get('post_id') != null){
+        } else if ($this->input->get('post_id') != null) {
             // $this->db->where('post_id',$_GET['post_id']);   
             // $query = $this->db->get($this->db_table);
 
@@ -33,10 +35,9 @@ class Pahiram_post_model extends CI_Model {
             );
             $query = $this->db->get_where($this->db_table, $data);
 
-            $result = $query -> result_array();
+            $result = $query->result_array();
             return $result[0];
-        }
-        else if($this->input->get('user_id')){
+        } else if ($this->input->get('user_id')) {
             // $this->db->where('user_id',$_GET['user_id']);   
             // $query = $this->db->get($this->db_table);
             $data = array(
@@ -44,20 +45,20 @@ class Pahiram_post_model extends CI_Model {
                 'status' => 'active'
             );
             $query = $this->db->get_where($this->db_table, $data);
-            return $query -> result_array();
-        }
-        else{
+            return $query->result_array();
+        } else {
             $query = $this->db->get($this->db_table);
         }
-        
+
         return $query->result_array();
     }
 
     // create post
-    function insert() {
+    public function insert()
+    {
         return $this->db->insert($this->db_table, $this->input->post());
     }
-    
+
     // function insert_image_location(){
     //     $image_file = $_FILES['file']['name'];
     //     $file_extension = pathinfo($image_file, PATHINFO_EXTENSION);
@@ -68,25 +69,57 @@ class Pahiram_post_model extends CI_Model {
     //     $this->db->where('post_id',$this->db->insert_id());
     //     $this->db->update($this->db_table);
     // }
-    
-    //Inert Image Base64 encoding
-    function insert_image(){
+
+    #NOT TESTED YET
+    public function update_post()
+    {
+        $this->db->where('post_id', $_POST['post_id']);
+        unset($_POST['post_id']);
+        return $this->db->update($this->db_table, $this->input->post());
+    }
+
+    //Insert Image Base64 encoding
+    public function insert_image()
+    {
         $image = base64_decode($_POST['image']);
         $file_extension = pathinfo($_POST['image_name'], PATHINFO_EXTENSION);
         $url = "http://localhost/Team04-BSCS-NS-3A-M/Pahiram_post/get_image/?path=";
         $path = 'uploads/chat/pahiram/' . $this->db->insert_id() . "." . $file_extension;
         file_put_contents($path, $image);
-        $this->db->set('image_location',$url . $path);
+        $this->db->set('image_location', $url . $path);
         $this->db->where('post_id', $this->db->insert_id());
         $this->db->update($this->db_table);
     }
 
     // set post status post (e.g deactivate post)
-    function set_status($post_id) {
+    public function set_status($post_id)
+    {
         $this->db->set('status', 'deactivated');
         $this->db->where('post_id', $post_id);
         $this->db->update($this->db_table);
         return ($this->db->affected_rows() > 0) ? '200' : '409';
     }
-    
+
+    public function create_request()
+    {
+        return $this->db->insert($this->db_request, $this->input->post());
+    }
+
+    public function get_request()
+    {
+        $data = array(
+            'user_id' => $_GET['user_id'],
+            'status' => 'active'
+        );
+        $query = $this->db->get_where($this->db_request, $data);
+        return $query->result_array();
+    }
+
+    public function decline_request()
+    {
+        $this->db->set('status', 'deactivated');
+        $this->db->where('request_id', $_POST['request_id']);
+        $this->db->update($this->db_request);
+        return ($this->db->affected_rows() > 0) ? '200' : '409';
+    }
 }

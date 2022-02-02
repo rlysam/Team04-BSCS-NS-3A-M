@@ -65,8 +65,14 @@ class Pasabay_post_model extends CI_Model
     //     $this->db->update($this->db_table);
     // }
 
-    //Image base64 encoding
+    #NOT TESTED YET
+    public function update_post(){
+        $this->db->where('post_id', $_POST['post_id']);
+        unset($_POST['post_id']);
+        return $this->db->update($this->db_table, $this->input->post());
+    }
 
+    //Image base64 encoding
     public function insert_image_location()
     {
         $image = base64_decode($_POST['image']);

@@ -31,8 +31,14 @@ class Pasabay_post extends CI_Controller {
         }
     }
 
-    public function accept(){
-        
+    public function update_post(){
+        $this->load->model("Pasabay_post_model");
+        if($this->Pasabay_post_model->update_post()){
+            $this->output->set_status_header('200');
+        }
+        else{
+            $this->output->set_status_header('409');
+        }
     }
 
     public function deactivate_post(){
@@ -52,5 +58,9 @@ class Pasabay_post extends CI_Controller {
         $filename = $this->input->get('path');
         header('Content-type: ' . get_mime_by_extension($filename));
         echo file_get_contents($filename); 
+    }
+
+    public function accept(){
+        
     }
 }
