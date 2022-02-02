@@ -1,12 +1,15 @@
 <?php
 defined('BASEPATH') || exit('No direct script access allowed');
-header('Access-Control-Allow-Origin: *'); //Since flutter is not a static url
 
 class Pasabay_post extends CI_Controller
 {
 
-    public function get_post()
-    {
+    public function __construct() {
+        parent::__construct();
+        header('Access-Control-Allow-Origin: *');
+    }
+
+    public function get_post() {
         $this->load->model("Pasabay_post_model");
         $data = $this->Pasabay_post_model->get_post();
 
@@ -14,43 +17,39 @@ class Pasabay_post extends CI_Controller
         echo json_encode($data);;
     }
 
-    public function create_post()
-    {
+    public function create_post() {
 
-        if ($this->input->post() > 0){
+        if ($this->input->post() > 0) {
 
             $this->load->model('Pasabay_post_model');
 
-            if ($this->Pasabay_post_model->create_post()){
+            if ($this->Pasabay_post_model->create_post()) {
 
                 $this->output->set_status_header('201');
                 $this->Pasabay_post_model->insert_image_location();
-            } else{
+            } else {
                 $this->output->set_status_header('409');
             }
             echo json_encode($this->input->post());
         }
     }
 
-    public function update_post()
-    {
+    public function update_post() {
         $this->load->model("Pasabay_post_model");
-        if ($this->Pasabay_post_model->update_post()){
+        if ($this->Pasabay_post_model->update_post()) {
             $this->output->set_status_header('200');
-        } else{
+        } else {
             $this->output->set_status_header('409');
         }
     }
 
-    public function deactivate_post()
-    {
+    public function deactivate_post() {
         $this->load->model('Pasabay_post_model');
         $status_code = $this->Pasabay_post_model->deactivate_post($this->input->post('post_id'));
         $this->output->set_status_header($status_code);
     }
 
-    public function get_image()
-    {
+    public function get_image() {
         $this->load->helper('file');
         $filename = $this->input->get('path');
         header('Content-type: ' . get_mime_by_extension($filename));
