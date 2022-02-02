@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
 
 class Pasabay_chat extends CI_Controller
