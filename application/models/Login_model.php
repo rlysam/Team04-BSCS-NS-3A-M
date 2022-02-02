@@ -21,9 +21,11 @@ class Login_model extends CI_Model
 
         $count = $this->db->count_all_results($this->db_table);
 
-        if ($count > 0) {
+        if ($count > 0)
+        {
             $result = $this->db->get_where($this->db_table, array('email' => $email));
-        } else {
+        } else 
+        {
             $result = array();
             return $result;
         }
