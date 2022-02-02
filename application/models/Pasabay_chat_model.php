@@ -26,7 +26,7 @@ class Pasabay_chat_model extends CI_Model
             $url = "http://localhost/Team04-BSCS-NS-3A-M/Pasabay_chat/get_image/?path=";
             $path = 'uploads/chat/pasabay/' . $this->db->insert_id() . "." . $file_extension;
             file_put_contents($path, $image);
-            $this->db->set('image_location',$url . $path);
+            $this->db->set('image_location', $url . $path);
             $this->db->where('chat_id', $this->db->insert_id());
             $this->db->update($this->db_table);
         }

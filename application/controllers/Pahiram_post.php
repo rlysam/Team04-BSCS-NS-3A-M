@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
 
 class Pahiram_post extends CI_Controller
@@ -23,11 +23,11 @@ class Pahiram_post extends CI_Controller
 
             $this->load->model('Pahiram_post_model');
 
-            if ($this->Pahiram_post_model->insert()) {
+            if ($this->Pahiram_post_model->insert()){
 
                 $this->output->set_status_header('201');
                 $this->Pahiram_post_model->insert_image_location();
-            } else {
+            } else{
                 $this->output->set_status_header('409');
             }
 
@@ -38,9 +38,9 @@ class Pahiram_post extends CI_Controller
     public function update_post()
     {
         $this->load->model("Pahiram_post_model");
-        if ($this->Pahiram_post_model->update_post()) {
+        if ($this->Pahiram_post_model->update_post()){
             $this->output->set_status_header('200');
-        } else {
+        } else{
             $this->output->set_status_header('409');
         }
     }
@@ -56,32 +56,16 @@ class Pahiram_post extends CI_Controller
     public function deactivate_post()
     {
         $this->load->model('Pahiram_post_model');
-        $status_code = $this->Pahiram_post_model->set_status($_POST['post_id']);
+        $status_code = $this->Pahiram_post_model->set_status($this->input->post('post_id'));
         $this->output->set_status_header($status_code);
     }
-    // public function deactivate_post($post_id) {
-    //     $this->load->model('Pahiram_post_model');
-    //     $status_code = $this->Pahiram_post_model->set_status($post_id, $this->STATUS_DEACTIVATED);
-    //     $this->output->set_status_header($status_code);
-    // }
-
 
     public function send_request()
     {
         $this->load->model("Pahiram_post_model");
-        if ($this->Pahiram_post_model->create_request()) {
+        if ($this->Pahiram_post_model->create_request()){
             $this->output->set_status_header('201');
-        } else {
-            $this->output->set_status_header('409');
-        }
-    }
-
-    public function accept_request()
-    {
-        $this->load->model("Pahiram_post_model");
-        if ($this->Pahiram_post_model->update_post()) {
-            $this->output->set_status_header('200');
-        } else {
+        } else{
             $this->output->set_status_header('409');
         }
     }

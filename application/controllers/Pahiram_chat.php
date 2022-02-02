@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
 
 class Pahiram_chat extends CI_Controller
