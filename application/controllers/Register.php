@@ -5,12 +5,8 @@ header('Access-Control-Allow-Origin: *'); //Since flutter is not a static url
 class Register extends CI_Controller
 {
 
-    public function __construct() {
-        parent::__construct();
-        header('Access-Control-Allow-Origin: *');
-    }
-
-    public function get_user() {
+    public function get_user()
+    {
         $this->load->model("Register_model");
 
         $data = $this->Register_model->get_user();
@@ -19,7 +15,8 @@ class Register extends CI_Controller
         echo $output;
     }
 
-    public function generate_verification_code() {
+    public function generate_verification_code()
+    {
 
         $CHARS_LENGTH = 8;
 
@@ -47,7 +44,8 @@ class Register extends CI_Controller
         return str_shuffle($order);
     }
 
-    public function send_email_verification($email) {
+    public function send_email_verification($email)
+    {
         $this->load->library('email');
         $code = $this->generate_verification_code();
         $this->load->config('email');
@@ -73,7 +71,8 @@ class Register extends CI_Controller
     }
 
     //FOR TESTING
-    public function insert_user() {
+    public function insert_user()
+    {
 
         $this->load->model("Register_model");
         if ($this->input->post()) {
@@ -86,7 +85,8 @@ class Register extends CI_Controller
         }
     }
 
-    public function verify_user() {
+    public function verify_user()
+    {
 
         // load register model
         $this->load->model('Register_model');

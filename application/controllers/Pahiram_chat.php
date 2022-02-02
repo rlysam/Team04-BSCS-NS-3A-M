@@ -1,19 +1,18 @@
 <?php
 defined('BASEPATH') || exit('No direct script access allowed');
+header('Access-Control-Allow-Origin: *');
 
-class Pahiram_chat extends CI_Controller {
+class Pahiram_chat extends CI_Controller
+{
 
-  public function __construct() {
-    parent:: __construct();
-    header('Access-Control-Allow-Origin: *');
-  }
-
-  public function send_message() {
+  public function send_message()
+  {
     $this->load->model('Pahiram_chat_model');
     $this->Pahiram_chat_model->store_message();
   }
 
-  public function get_image() {
+  public function get_image()
+  {
     $this->load->helper('file');
     $filename = $this->input->get('path');
     header('Content-type: ' . get_mime_by_extension($filename));
