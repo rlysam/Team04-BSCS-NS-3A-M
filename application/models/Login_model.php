@@ -17,7 +17,6 @@ class Login_model extends CI_Model
     {
 
         $this->db->select($this->db_table)->where('email', $email);
-        // $this->db->get_where($this->db_table, array('email' => $email));
 
 
         $count = $this->db->count_all_results($this->db_table);

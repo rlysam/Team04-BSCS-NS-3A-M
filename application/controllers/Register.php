@@ -64,9 +64,7 @@ class Register extends CI_Controller
         $this->email->message($message);
 
         if ($this->email->send()) {
-            // echo 'Email sent';
             $output = array('code' => $code);
-            // echo json_encode($output);
             $this->output->set_content_type('application/json')->set_output(json_encode($output));
         } else {
             show_error($this->email->print_debugger());
@@ -108,16 +106,4 @@ class Register extends CI_Controller
             $this->send_email_verification($email);
         }
     }
-
-    /*public function get_post(){
-        $input = $this->input->post();
-
-        //log_message('Debug', 'lumabas = '. $output);
-        
-        if(isset($input['fname'])){
-            log_message('Debug', 'post = '.print_r($input, true));
-        }
-        else
-            log_message('Debug', 'geegee ;pds = '.print_r($input, true));
-    }*/
 }

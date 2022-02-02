@@ -39,21 +39,17 @@ class Login extends CI_Controller
                     ->set_output(json_encode($data));
             } else {
                 $this->output->set_status_header('401');
-                //->set_content_type('application/json')
-                //->set_output("Invalid credential(s)");
             }
         } else {
             $this->output->set_status_header('404');
-            //->set_content_type('application/json')
-            //->set_output("User doesn't exist");
         }
     }
 
     public function check_password_match($password, $post_password)
     {
-        //return (strcmp($password, $post_password)) ? true : false;
-        if (strcmp($password, $post_password) == 0)
+        if (strcmp($password, $post_password) == 0) {
             return true;
+        }
         return false;
     }
 }

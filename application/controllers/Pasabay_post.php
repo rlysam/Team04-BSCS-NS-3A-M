@@ -49,21 +49,11 @@ class Pasabay_post extends CI_Controller
         $this->output->set_status_header($status_code);
     }
 
-    // public function deactivate_post($post_id){
-    //     $this->load->model('Pasabay_post_model');
-    //     $status_code = $this->Pasabay_post_model->deactivate_post($post_id);
-    //     $this->output->set_status_header($status_code);
-    // }
-
     public function get_image()
     {
         $this->load->helper('file');
         $filename = $this->input->get('path');
         header('Content-type: ' . get_mime_by_extension($filename));
         echo file_get_contents($filename);
-    }
-
-    public function accept()
-    {
     }
 }

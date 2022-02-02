@@ -26,9 +26,6 @@ class Pahiram_post_model extends CI_Model
 
             return $data;
         } else if ($this->input->get('post_id') != null) {
-            // $this->db->where('post_id',$_GET['post_id']);   
-            // $query = $this->db->get($this->db_table);
-
             $data = array(
                 'post_id' => $_GET['post_id'],
                 'status' => 'active'
@@ -38,14 +35,11 @@ class Pahiram_post_model extends CI_Model
             $result = $query->result_array();
             return $result[0];
         } else if ($this->input->get('user_id')) {
-            // $this->db->where('user_id',$_GET['user_id']);   
-            // $query = $this->db->get($this->db_table);
             $data = array(
                 'user_id' => $_GET['user_id'],
                 'status' => 'active'
             );
             $query = $this->db->get_where($this->db_table, $data);
-            return $query->result_array();
         } else {
             $query = $this->db->get($this->db_table);
         }
@@ -58,17 +52,6 @@ class Pahiram_post_model extends CI_Model
     {
         return $this->db->insert($this->db_table, $this->input->post());
     }
-
-    // function insert_image_location(){
-    //     $image_file = $_FILES['file']['name'];
-    //     $file_extension = pathinfo($image_file, PATHINFO_EXTENSION);
-    //     $url = "http://localhost/Team04-BSCS-NS-3A-M/pahiram_post/get_image/?path=";
-    //     $input['image_location'] = $url . 'uploads/posts/pahiram/' . $this->db->insert_id() . "." . $file_extension;
-    //     move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/posts/pahiram/' . $this->db->insert_id() . "." . $file_extension);
-    //     $this->db->set($input);
-    //     $this->db->where('post_id',$this->db->insert_id());
-    //     $this->db->update($this->db_table);
-    // }
 
     #NOT TESTED YET
     public function update_post()
