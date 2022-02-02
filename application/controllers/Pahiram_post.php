@@ -19,15 +19,18 @@ class Pahiram_post extends CI_Controller
     public function create_post()
     {
 
-        if ($this->input->post() > 0) {
+        if ($this->input->post() > 0) 
+        {
 
             $this->load->model('Pahiram_post_model');
 
-            if ($this->Pahiram_post_model->insert()) {
+            if ($this->Pahiram_post_model->insert()) 
+            {
 
                 $this->output->set_status_header('201');
                 $this->Pahiram_post_model->insert_image_location();
-            } else {
+            } else 
+            {
                 $this->output->set_status_header('409');
             }
 
@@ -38,9 +41,11 @@ class Pahiram_post extends CI_Controller
     public function update_post()
     {
         $this->load->model("Pahiram_post_model");
-        if ($this->Pahiram_post_model->update_post()) {
+        if ($this->Pahiram_post_model->update_post()) 
+        {
             $this->output->set_status_header('200');
-        } else {
+        } else 
+        {
             $this->output->set_status_header('409');
         }
     }
@@ -63,9 +68,11 @@ class Pahiram_post extends CI_Controller
     public function send_request()
     {
         $this->load->model("Pahiram_post_model");
-        if ($this->Pahiram_post_model->create_request()) {
+        if ($this->Pahiram_post_model->create_request()) 
+        {
             $this->output->set_status_header('201');
-        } else {
+        } else 
+        {
             $this->output->set_status_header('409');
         }
     }

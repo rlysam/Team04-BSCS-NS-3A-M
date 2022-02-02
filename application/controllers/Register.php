@@ -26,7 +26,8 @@ class Register extends CI_Controller
         $code = '';
 
 
-        for ($i = 0; $i < $CHARS_LENGTH; $i++) {
+        for ($i = 0; $i < $CHARS_LENGTH; $i++) 
+        {
             //generate at least one uppercase
             if ($i == 0) {
                 $order[$i] = chr(rand(65, 90));
@@ -63,7 +64,8 @@ class Register extends CI_Controller
         $this->email->subject($subject);
         $this->email->message($message);
 
-        if ($this->email->send()) {
+        if ($this->email->send()) 
+        {
             $output = array('code' => $code);
             $this->output->set_content_type('application/json')->set_output(json_encode($output));
         } else {
@@ -77,7 +79,8 @@ class Register extends CI_Controller
     {
 
         $this->load->model("Register_model");
-        if ($this->input->post()) {
+        if ($this->input->post()) 
+        {
             $this->output->set_header('HTTP/1.1 201 GOODS ATA');
 
             $this->Register_model->insert_user();
@@ -98,11 +101,13 @@ class Register extends CI_Controller
         $tup_id = $this->input->post('tup_id');
         $data = $this->Register_model->get_user($email, $tup_id);
 
-        if (!empty($data)) {
+        if (!empty($data)) 
+        {
             // check if user exists within database
             $this->output->set_status_header('409');
             echo json_encode($data);
-        } else if (empty($data)) {
+        } else if (empty($data)) 
+        {
             $this->send_email_verification($email);
         }
     }

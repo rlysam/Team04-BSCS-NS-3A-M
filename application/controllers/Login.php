@@ -30,24 +30,29 @@ class Login extends CI_Controller
 
         $filtered_arr = array_filter($data);
 
-        if (!empty($filtered_arr)) {
+        if (!empty($filtered_arr)) 
+        {
             $is_match = $this->check_password_match($password, $data['password']);
 
-            if ($is_match) {
+            if ($is_match) 
+            {
                 $this->output
                     ->set_content_type('application/json')
                     ->set_output(json_encode($data));
-            } else {
+            } else 
+            {
                 $this->output->set_status_header('401');
             }
-        } else {
+        } else 
+        {
             $this->output->set_status_header('404');
         }
     }
 
     public function check_password_match($password, $post_password)
     {
-        if (strcmp($password, $post_password) == 0) {
+        if (strcmp($password, $post_password) == 0) 
+        {
             return true;
         }
         return false;

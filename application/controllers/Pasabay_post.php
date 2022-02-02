@@ -17,15 +17,18 @@ class Pasabay_post extends CI_Controller
     public function create_post()
     {
 
-        if ($this->input->post() > 0) {
+        if ($this->input->post() > 0) 
+        {
 
             $this->load->model('Pasabay_post_model');
 
-            if ($this->Pasabay_post_model->create_post()) {
+            if ($this->Pasabay_post_model->create_post()) 
+            {
 
                 $this->output->set_status_header('201');
                 $this->Pasabay_post_model->insert_image_location();
-            } else {
+            } else 
+            {
                 $this->output->set_status_header('409');
             }
             echo json_encode($this->input->post());
@@ -35,9 +38,11 @@ class Pasabay_post extends CI_Controller
     public function update_post()
     {
         $this->load->model("Pasabay_post_model");
-        if ($this->Pasabay_post_model->update_post()) {
+        if ($this->Pasabay_post_model->update_post()) 
+        {
             $this->output->set_status_header('200');
-        } else {
+        } else 
+        {
             $this->output->set_status_header('409');
         }
     }
