@@ -1,10 +1,12 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *'); //Since flutter is not a static url
 
-class Register extends CI_Controller {
-    
-    public function get_user(){
+class Register extends CI_Controller
+{
+
+    public function get_user()
+    {
         $this->load->model("Register_model");
 
         $data = $this->Register_model->get_user();
@@ -13,7 +15,8 @@ class Register extends CI_Controller {
         echo $output;
     }
 
-    public function generate_verification_code(){
+    public function generate_verification_code()
+    {
 
         $CHARS_LENGTH = 8;
 
@@ -23,31 +26,32 @@ class Register extends CI_Controller {
         $code = '';
 
 
-        for ($i = 0; $i < $CHARS_LENGTH; $i++){
+        for ($i = 0; $i < $CHARS_LENGTH; $i++) {
             //generate at least one uppercase
             if ($i == 0) {
                 $order[$i] = chr(rand(65, 90));
-             //generate at least one lowercase
+                //generate at least one lowercase
             } else if ($i == 1) {
-                $order[$i] = chr(rand(97,122));
-            //generate at least one number (0-9)
+                $order[$i] = chr(rand(97, 122));
+                //generate at least one number (0-9)
             } else if ($i == 2) {
-                $order[$i] = chr(rand(48,57));
+                $order[$i] = chr(rand(48, 57));
             } else {
                 $order[$i] = $chars[rand(0, $chars_len) - 1];
             }
         }
 
         $code = str_shuffle($order);
-        
+
         return $code;
     }
 
-    public function send_email_verification($email){
+    public function send_email_verification($email)
+    {
         $this->load->library('email');
         $code = $this->generate_verification_code();
         $this->load->config('email');
-    
+
         $from = $this->config->item('smtp_user');
         $to = $email;
         $subject = 'Pahiream verification code';
@@ -68,25 +72,25 @@ class Register extends CI_Controller {
             show_error($this->email->print_debugger());
             $this->output->set_status_header('502');
         }
-
     }
 
     //FOR TESTING
-    public function insert_user(){
-        
+    public function insert_user()
+    {
+
         $this->load->model("Register_model");
-        if($this->input->post()){
+        if ($this->input->post()) {
             $this->output->set_header('HTTP/1.1 201 GOODS ATA');
-            
+
             $this->Register_model->insert_user();
-            $data = $this->Register_model->get_user($_POST['email'],$_POST['tup_id']);
+            $data = $this->Register_model->get_user($_POST['email'], $_POST['tup_id']);
 
             $this->output->set_content_type('application/json')->set_output(json_encode($data[0]));
         }
-
     }
 
-    public function verify_user() {
+    public function verify_user()
+    {
 
         // load register model
         $this->load->model('Register_model');
@@ -100,7 +104,7 @@ class Register extends CI_Controller {
             // check if user exists within database
             $this->output->set_status_header('409');
             echo json_encode($data);
-        } else if(empty($data)) {
+        } else if (empty($data)) {
             $this->send_email_verification($email);
         }
     }

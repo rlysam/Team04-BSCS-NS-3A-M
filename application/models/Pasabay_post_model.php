@@ -13,7 +13,7 @@ class Pasabay_post_model extends CI_Model
         if ($this->input->get('page') != null) {
             $total_rows  = $this->db->count_all($this->db_table);
             $total_pages = ceil($total_rows / 10);
-            $this->db->where('status','active');
+            $this->db->where('status', 'active');
             $query = $this->db->get($this->db_table, 10, ($this->input->get('page') - 1) * 10);
             $data = array(
                 "total_posts" => $total_rows,
@@ -66,7 +66,8 @@ class Pasabay_post_model extends CI_Model
     // }
 
     #NOT TESTED YET
-    public function update_post(){
+    public function update_post()
+    {
         $this->db->where('post_id', $_POST['post_id']);
         unset($_POST['post_id']);
         return $this->db->update($this->db_table, $this->input->post());

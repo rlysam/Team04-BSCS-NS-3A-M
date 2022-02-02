@@ -12,10 +12,11 @@ class Pasabay_chat extends CI_Controller
         echo "heloo";
     }
 
-    public function get_image(){
+    public function get_image()
+    {
         $this->load->helper('file');
         $filename = $this->input->get('path');
         header('Content-type: ' . get_mime_by_extension($filename));
-        echo file_get_contents($filename); 
+        echo file_get_contents($filename);
     }
 }

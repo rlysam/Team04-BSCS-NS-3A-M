@@ -1,15 +1,17 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
 
-class Login extends CI_Controller {
+class Login extends CI_Controller
+{
 
-	public function index()
-	{
-		$this->load->view('welcome_message');
-	}
+    public function index()
+    {
+        $this->load->view('welcome_message');
+    }
 
-	public function get_user(){
+    public function get_user()
+    {
         $this->load->model("Login_model");
 
         $data = $this->Login_model->get_user();
@@ -18,7 +20,8 @@ class Login extends CI_Controller {
         echo $output;
     }
 
-    public function get_user_by_email() {
+    public function get_user_by_email()
+    {
         $this->load->model("Login_model");
 
         $email = $this->input->post('email');
@@ -41,16 +44,16 @@ class Login extends CI_Controller {
             }
         } else {
             $this->output->set_status_header('404');
-                //->set_content_type('application/json')
-                //->set_output("User doesn't exist");
+            //->set_content_type('application/json')
+            //->set_output("User doesn't exist");
         }
-
     }
 
-    public function check_password_match($password, $post_password) {
+    public function check_password_match($password, $post_password)
+    {
         //return (strcmp($password, $post_password)) ? true : false;
-        if(strcmp($password, $post_password) == 0)
+        if (strcmp($password, $post_password) == 0)
             return true;
         return false;
-    }   
+    }
 }
