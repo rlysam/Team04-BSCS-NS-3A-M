@@ -2,10 +2,8 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
 
-class Login extends CI_Controller
-{
-    public function get_user()
-    {
+class Login extends CI_Controller {
+    public function get_user() {
         $this->load->model("Login_model");
 
         $data = $this->Login_model->get_user();
@@ -14,8 +12,7 @@ class Login extends CI_Controller
         echo $output;
     }
 
-    public function get_user_by_email()
-    {
+    public function get_user_by_email() {
         $this->load->model("Login_model");
 
         $email = $this->input->post('email');
@@ -39,8 +36,7 @@ class Login extends CI_Controller
         }
     }
 
-    public function check_password_match($password, $post_password)
-    {
+    public function check_password_match($password, $post_password) {
         if (strcmp($password, $post_password) == 0) {
             return true;
         }
