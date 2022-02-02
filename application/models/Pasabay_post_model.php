@@ -10,7 +10,8 @@ class Pasabay_post_model extends CI_Model
     {
 
 
-        if ($this->input->get('page') != null) {
+        if ($this->input->get('page') != null) 
+        {
             $total_rows  = $this->db->count_all($this->db_table);
             $total_pages = ceil($total_rows / 10);
             $this->db->where('status','active');
@@ -22,7 +23,8 @@ class Pasabay_post_model extends CI_Model
             );
 
             return $data;
-        } else if ($this->input->get('post_id') != null) {
+        } else if ($this->input->get('post_id') != null) 
+        {
             //$this->db->where('post_id', $_GET['post_id']);
             //$query = $this->db->get($this->db_table);
             $data = array(
@@ -33,7 +35,8 @@ class Pasabay_post_model extends CI_Model
             $result = $query->result_array();
 
             return $result[0];
-        } else if ($this->post->get('user_id') != null) {
+        } else if ($this->post->get('user_id') != null) 
+        {
             //$this->db->where('user_id', $_GET['user_id']);
             //$query = $this->db->get($this->db_table);
             $data = array(
@@ -42,7 +45,8 @@ class Pasabay_post_model extends CI_Model
             );
             $query = $this->db->get_where($this->db_table, $data);
             return $query->result_array();
-        } else {
+        } else 
+        {
             $query = $this->db->get($this->db_table);
         }
 

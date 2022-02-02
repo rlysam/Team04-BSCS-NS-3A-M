@@ -11,7 +11,8 @@ class Login_model extends CI_Model {
         return $query -> result_array();
     }
 	
-    public function get_user_by_email($email) {
+    public function get_user_by_email($email)
+    {
 
         $this->db->select($this->db_table)->where('email', $email);
         // $this->db->get_where($this->db_table, array('email' => $email));
@@ -19,9 +20,11 @@ class Login_model extends CI_Model {
         
         $count = $this->db->count_all_results($this->db_table);
 
-        if ($count > 0){
+        if ($count > 0)
+        {
             $result = $this->db->get_where($this->db_table, array('email' => $email));
-        } else {
+        } else 
+        {
             $result = array();
             return $result;
         }

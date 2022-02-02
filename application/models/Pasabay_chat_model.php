@@ -19,7 +19,8 @@ class Pasabay_chat_model extends CI_Model
         unset($_POST['image']);
         unset($_POST['image_name']);
         $query = $this->db->insert($this->db_table, $this->input->post());
-        if (strcmp($_POST['chat_type'], 'image') == 0) {
+        if (strcmp($_POST['chat_type'], 'image') == 0) 
+        {
             $image = base64_decode($imageBase64);
             $file_extension = pathinfo($image_name, PATHINFO_EXTENSION);
             $url = "http://localhost/Team04-BSCS-NS-3A-M/Pasabay_chat/get_image/?path=";
