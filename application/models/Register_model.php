@@ -1,11 +1,13 @@
 <?php
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Register_model extends CI_Model {
+class Register_model extends CI_Model 
+{
 
     private $db_table = "users";
 
-    public function get_user($email = null, $tup_id = null) {
+    public function get_user($email = null, $tup_id = null) 
+    {
 
         if ($email != null && $tup_id != null) {
             $this->db->where('email', $email);
@@ -18,7 +20,8 @@ class Register_model extends CI_Model {
 
 
     //FOR TESTING
-    public function insert_user() {
+    public function insert_user() 
+    {
         $this->db->insert($this->db_table, $this->input->post());
     }
 }
