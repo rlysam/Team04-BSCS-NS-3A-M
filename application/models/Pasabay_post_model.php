@@ -1,13 +1,11 @@
 <?php
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Pasabay_post_model extends CI_Model
-{
+class Pasabay_post_model extends CI_Model {
 
     private $db_table = "pasabay_post";
 
-    public function get_post()
-    {
+    public function get_post() {
 
 
         if ($this->input->get('page') != null) {
@@ -44,22 +42,19 @@ class Pasabay_post_model extends CI_Model
         return $query->result_array();
     }
 
-    public function create_post()
-    {
+    public function create_post() {
         return $this->db->insert($this->db_table, $this->input->post());
     }
 
     #NOT TESTED YET
-    public function update_post()
-    {
+    public function update_post() {
         $this->db->where('post_id', $_POST['post_id']);
         unset($_POST['post_id']);
         return $this->db->update($this->db_table, $this->input->post());
     }
 
     //Image base64 encoding
-    public function insert_image_location()
-    {
+    public function insert_image_location() {
         $image = base64_decode($_POST['image']);
         $file_extension = pathinfo($_POST['image_name'], PATHINFO_EXTENSION);
         $url = "http://localhost/Team04-BSCS-NS-3A-M/Pasabay_chat/get_image/?path=";
@@ -70,8 +65,7 @@ class Pasabay_post_model extends CI_Model
         $this->db->update($this->db_table);
     }
 
-    public function deactivate_post($post_id)
-    {
+    public function deactivate_post($post_id) {
         $this->db->set('status', 'deactivated');
         $this->db->where('post_id', $post_id);
         $this->db->update($this->db_table);
