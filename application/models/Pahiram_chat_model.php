@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Pahiram_chat_model extends CI_Model 
+class Pahiram_chat_model extends CI_Model
 {
 
     private $db_table = 'pahiram_chat';
     private $users_table = 'users';
 
-    public function store_message() 
+    public function store_message()
     {
 
         $user = $this->db->get_where($this->users_table, array('user_id' => (int) $this->input->post('user_id')));
