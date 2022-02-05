@@ -12,14 +12,14 @@ class Pasabay_chat_model extends CI_Model
 
         $user = $this->db->get_where($this->users_table, array('user_id' => (int) $this->input->post('user_id')));
         $user = $user->result_array();
-        //$_POST['first_name'] = $user[0]['first_name'];
-        //$_POST['last_name'] = $user[0]['last_name'];
-        $imageBase64 = $_POST['image'];
-        $image_name = $_POST['image_name'];
-        unset($_POST['image']);
-        unset($_POST['image_name']);
+        //$this->input->post('first_name') = $user[0]['first_name'];
+        //$this->input->post('last_name') = $user[0]['last_name'];
+        $imageBase64 = $this->input->post('image');
+        $image_name = $this->input->post('image_name');
+        unset($this->input->post('image'));
+        unset($this->input->post('image_name'));
         $query = $this->db->insert($this->db_table, $this->input->post());
-        if (strcmp($_POST['chat_type'], 'image') == 0) {
+        if (strcmp($this->input->post('chat_type'), 'image') == 0) {
             $image = base64_decode($imageBase64);
             $file_extension = pathinfo($image_name, PATHINFO_EXTENSION);
             $url = "http://localhost/Team04-BSCS-NS-3A-M/Pasabay_chat/get_image/?path=";

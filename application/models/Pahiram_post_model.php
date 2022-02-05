@@ -27,7 +27,7 @@ class Pahiram_post_model extends CI_Model
             return $data;
         } else if ($this->input->get('post_id') != null) {
             $data = array(
-                'post_id' => $_GET['post_id'],
+                'post_id' => $this->input->get('post_id'),
                 'status' => 'active'
             );
             $query = $this->db->get_where($this->db_table, $data);
@@ -36,7 +36,7 @@ class Pahiram_post_model extends CI_Model
             return $result[0];
         } else if ($this->input->get('user_id')) {
             $data = array(
-                'user_id' => $_GET['user_id'],
+                'user_id' => $this->input->get('user_id'),
                 'status' => 'active'
             );
             $query = $this->db->get_where($this->db_table, $data);
@@ -56,16 +56,16 @@ class Pahiram_post_model extends CI_Model
     #NOT TESTED YET
     public function update_post() 
     {
-        $this->db->where('post_id', $_POST['post_id']);
-        unset($_POST['post_id']);
+        $this->db->where('post_id', $this->input->post('post_id'));
+        unset($this->input->post('post_id'));
         return $this->db->update($this->db_table, $this->input->post());
     }
 
     //Insert Image Base64 encoding
     public function insert_image() 
     {
-        $image = base64_decode($_POST['image']);
-        $file_extension = pathinfo($_POST['image_name'], PATHINFO_EXTENSION);
+        $image = base64_decode($this->input->post('image'));
+        $file_extension = pathinfo($this->input->post('image_name'), PATHINFO_EXTENSION);
         $url = "http://localhost/Team04-BSCS-NS-3A-M/Pahiram_post/get_image/?path=";
         $path = 'uploads/chat/pahiram/' . $this->db->insert_id() . "." . $file_extension;
         file_put_contents($path, $image);
@@ -91,7 +91,7 @@ class Pahiram_post_model extends CI_Model
     public function get_request() 
     {
         $data = array(
-            'user_id' => $_GET['user_id'],
+            'user_id' => $this->input->get('user_id'),
             'status' => 'active'
         );
         $query = $this->db->get_where($this->db_request, $data);
@@ -101,7 +101,7 @@ class Pahiram_post_model extends CI_Model
     public function decline_request() 
     {
         $this->db->set('status', 'deactivated');
-        $this->db->where('request_id', $_POST['request_id']);
+        $this->db->where('request_id', $this->input->post('request_id'));
         $this->db->update($this->db_request);
         return ($this->db->affected_rows() > 0) ? '200' : '409';
     }
