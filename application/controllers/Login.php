@@ -1,3 +1,10 @@
+<!-- 
+    /*
+    * Pahiream, TUP student resource sharing and delivery
+    * Copyright (C) 2022
+    */
+ -->
+
 <?php
 defined('BASEPATH') || exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
