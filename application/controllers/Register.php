@@ -1,13 +1,10 @@
-<!-- 
-    /*
-    * Pahiream, TUP student resource sharing and delivery
-    * Copyright (C) 2022
-    */
- -->
- 
 <?php
+/*
+* Pahiream, TUP student resource sharing and delivery
+* Copyright (C) 2022
+*/
 defined('BASEPATH') || exit('No direct script access allowed');
-header('Access-Control-Allow-Origin: *'); //Since flutter is not a static url
+header('Access-Control-Allow-Origin: *');
 
 class Register extends CI_Controller
 {
