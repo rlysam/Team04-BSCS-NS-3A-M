@@ -19,8 +19,7 @@ class Pahiram_chat_model extends CI_Model
         unset($_POST['image']);
         unset($_POST['image_name']);
         $query = $this->db->insert($this->db_table, $this->input->post());
-        if (strcmp($_POST['chat_type'], 'image') == 0)
-        {
+        if (strcmp($this->input->post('chat_type'), 'image') == 0) {
             $image = base64_decode($imageBase64);
             $fileExtension = pathinfo($imageName, PATHINFO_EXTENSION);
             $url = "http://localhost/Team04-BSCS-NS-3A-M/Pahiram_Chat/get_image/?path=";

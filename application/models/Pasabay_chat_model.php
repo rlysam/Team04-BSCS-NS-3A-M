@@ -6,21 +6,27 @@ class Pasabay_chat_model extends CI_Model
 
     private $db_table = 'pasabay_chat';
     private $users_table = 'users';
-
     public function store_message()
     {
-
         $user = $this->db->get_where($this->users_table, array('user_id' => (int) $this->input->post('user_id')));
         $user = $user->result_array();
+<<<<<<< HEAD
         //$_POST['first_name'] = $user[0]['first_name'];
         //$_POST['last_name'] = $user[0]['last_name'];
         $imageBase64 = $this->input->post('image');
         $imageName = $this->input->post('image_name');
         unset($_POST['image']);
         unset($_POST['image_name']);
+=======
+        //$this->input->post('first_name') = $user[0]['first_name'];
+        //$this->input->post('last_name') = $user[0]['last_name'];
+        $imageBase64 = $this->input->post('image');
+        $image_name = $this->input->post('image_name');
+        unset($this->input->post('image'));
+        unset($this->input->post('image_name'));
+>>>>>>> 3c97378c6a8834d2e74e714b40154aec62c6f71e
         $query = $this->db->insert($this->db_table, $this->input->post());
-        if (strcmp($_POST['chat_type'], 'image') == 0)
-        {
+        if (strcmp($this->input->post('chat_type'), 'image') == 0) {
             $image = base64_decode($imageBase64);
             $file_extension = pathinfo($imageName, PATHINFO_EXTENSION);
             $url = "http://localhost/Team04-BSCS-NS-3A-M/Pasabay_chat/get_image/?path=";

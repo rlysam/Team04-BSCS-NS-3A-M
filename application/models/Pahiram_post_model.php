@@ -6,12 +6,9 @@ class Pahiram_post_model extends CI_Model
 
     private $db_table = 'pahiram_post';
     private $db_request = 'pahiram_request';
-
-
     // get post (by id)
     public function get_post()
     {
-
         if ($this->input->get('page') != null) {
             $totalRows  = $this->db->count_all($this->db_table);
             $total_pages = ceil($totalRows / 10);
@@ -25,23 +22,21 @@ class Pahiram_post_model extends CI_Model
             );
         } else if ($this->input->get('post_id') != null) {
             $data = array(
-                'post_id' => $_GET['post_id'],
+                'post_id' => $this->input->get('post_id'),
                 'status' => 'active'
             );
             $query = $this->db->get_where($this->db_table, $data);
-
             $result = $query->result_array();
             return $result[0];
         } else if ($this->input->get('user_id')) {
             $data = array(
-                'user_id' => $_GET['user_id'],
+                'user_id' => $this->input->get('user_id'),
                 'status' => 'active'
             );
             $query = $this->db->get_where($this->db_table, $data);
         } else {
             $query = $this->db->get($this->db_table);
         }
-
         return $query->result_array();
     }
 
@@ -89,7 +84,7 @@ class Pahiram_post_model extends CI_Model
     public function get_request()
     {
         $data = array(
-            'user_id' => $_GET['user_id'],
+            'user_id' => $this->input->get('user_id'),
             'status' => 'active'
         );
         $query = $this->db->get_where($this->db_request, $data);
