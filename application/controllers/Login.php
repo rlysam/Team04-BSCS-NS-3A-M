@@ -22,9 +22,9 @@ class Login extends CI_Controller
         $password = $this->input->post('password');
         $data = $this->Login_model->get_user_by_email($email);
 
-        $filtered_arr = array_filter($data);
+        $filteredArr = array_filter($data);
 
-        if (!empty($filtered_arr)) {
+        if (!empty($filteredArr)) {
             $is_match = $this->check_password_match($password, $data['password']);
 
             if ($is_match) {
@@ -39,9 +39,9 @@ class Login extends CI_Controller
         }
     }
 
-    public function check_password_match($password, $post_password)
+    public function check_password_match($password, $postPassword)
     {
-        if (strcmp($password, $post_password) == 0) {
+        if (strcmp($password, $postPassword) == 0) {
             return true;
         }
         return false;

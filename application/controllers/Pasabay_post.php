@@ -45,8 +45,8 @@ class Pasabay_post extends CI_Controller
     public function deactivate_post()
     {
         $this->load->model('Pasabay_post_model');
-        $status_code = $this->Pasabay_post_model->deactivate_post($this->input->post('post_id'));
-        $this->output->set_status_header($status_code);
+        $statusCode = $this->Pasabay_post_model->deactivate_post($this->input->post('post_id'));
+        $this->output->set_status_header($statusCode);
     }
 
     public function get_image()

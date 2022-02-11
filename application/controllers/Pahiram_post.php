@@ -56,8 +56,8 @@ class Pahiram_post extends CI_Controller
     public function deactivate_post()
     {
         $this->load->model('Pahiram_post_model');
-        $status_code = $this->Pahiram_post_model->set_status($this->input->post('post_id'));
-        $this->output->set_status_header($status_code);
+        $statusCode = $this->Pahiram_post_model->set_status($this->input->post('post_id'));
+        $this->output->set_status_header($statusCode);
     }
 
     public function send_request()
@@ -73,8 +73,8 @@ class Pahiram_post extends CI_Controller
     public function decline_request()
     {
         $this->load->model("Pahiram_post_model");
-        $status_code = $this->Pahiram_post_model->decline_request();
-        $this->output->set_status_header($status_code);
+        $statusCode = $this->Pahiram_post_model->decline_request();
+        $this->output->set_status_header($statusCode);
     }
 
     public function get_request()

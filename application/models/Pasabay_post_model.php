@@ -15,13 +15,11 @@ class Pasabay_post_model extends CI_Model
             $total_pages = ceil($total_rows / 10);
             $this->db->where('status', 'active');
             $query = $this->db->get($this->db_table, 10, ($this->input->get('page') - 1) * 10);
-            $data = array(
+            return array(
                 "total_posts" => $total_rows,
                 "total_pages" => $total_pages,
                 "posts" => $query->result_array()
             );
-
-            return $data;
         } else if ($this->input->get('post_id') != null) {
             $data = array(
                 'post_id' => $_GET['post_id'],
@@ -61,9 +59,9 @@ class Pasabay_post_model extends CI_Model
     public function insert_image_location()
     {
         $image = base64_decode($_POST['image']);
-        $file_extension = pathinfo($_POST['image_name'], PATHINFO_EXTENSION);
+        $fileExtension = pathinfo($_POST['image_name'], PATHINFO_EXTENSION);
         $url = "http://localhost/Team04-BSCS-NS-3A-M/Pasabay_chat/get_image/?path=";
-        $path = 'uploads/chat/pasabay/' . $this->db->insert_id() . "." . $file_extension;
+        $path = 'uploads/chat/pasabay/' . $this->db->insert_id() . "." . $fileExtension;
         file_put_contents($path, $image);
         $this->db->set('image_location', $url . $path);
         $this->db->where('post_id', $this->db->insert_id());

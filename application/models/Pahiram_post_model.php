@@ -13,18 +13,16 @@ class Pahiram_post_model extends CI_Model
     {
 
         if ($this->input->get('page') != null) {
-            $total_rows  = $this->db->count_all($this->db_table);
-            $total_pages = ceil($total_rows / 10);
+            $totalRows  = $this->db->count_all($this->db_table);
+            $total_pages = ceil($totalRows / 10);
             $this->db->where('status', 'active');
             $query = $this->db->get($this->db_table, 10, ($this->input->get('page') - 1) * 10);
 
-            $data = array(
-                "total_posts" => $total_rows,
+            return array(
+                "total_posts" => $totalRows,
                 "total_pages" => $total_pages,
                 "posts" => $query->result_array()
             );
-
-            return $data;
         } else if ($this->input->get('post_id') != null) {
             $data = array(
                 'post_id' => $_GET['post_id'],
@@ -56,7 +54,7 @@ class Pahiram_post_model extends CI_Model
     #NOT TESTED YET
     public function update_post()
     {
-        $this->db->where('post_id', $_POST['post_id']);
+        $this->db->where('post_id', $this->input->post('post_id'));
         unset($_POST['post_id']);
         return $this->db->update($this->db_table, $this->input->post());
     }
@@ -64,10 +62,10 @@ class Pahiram_post_model extends CI_Model
     //Insert Image Base64 encoding
     public function insert_image()
     {
-        $image = base64_decode($_POST['image']);
-        $file_extension = pathinfo($_POST['image_name'], PATHINFO_EXTENSION);
+        $image = base64_decode($this->input->post('image'));
+        $fileExtension = pathinfo($this->input->post('image_name'), PATHINFO_EXTENSION);
         $url = "http://localhost/Team04-BSCS-NS-3A-M/Pahiram_post/get_image/?path=";
-        $path = 'uploads/chat/pahiram/' . $this->db->insert_id() . "." . $file_extension;
+        $path = 'uploads/chat/pahiram/' . $this->db->insert_id() . "." . $fileExtension;
         file_put_contents($path, $image);
         $this->db->set('image_location', $url . $path);
         $this->db->where('post_id', $this->db->insert_id());
@@ -101,7 +99,7 @@ class Pahiram_post_model extends CI_Model
     public function decline_request()
     {
         $this->db->set('status', 'deactivated');
-        $this->db->where('request_id', $_POST['request_id']);
+        $this->db->where('request_id', $this->input->post('request_id'));
         $this->db->update($this->db_request);
         return ($this->db->affected_rows() > 0) ? '200' : '409';
     }

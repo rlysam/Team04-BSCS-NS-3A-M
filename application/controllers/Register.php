@@ -21,7 +21,7 @@ class Register extends CI_Controller
         $CHARS_LENGTH = 8;
 
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $chars_len = strlen($chars);
+        $charsLen = strlen($chars);
         $order = '';
         $code = '';
 
@@ -37,7 +37,7 @@ class Register extends CI_Controller
             } else if ($i == 2) {
                 $order[$i] = chr(rand(48, 57));
             } else {
-                $order[$i] = $chars[rand(0, $chars_len) - 1];
+                $order[$i] = $chars[rand(0, $charsLen) - 1];
             }
         }
 
@@ -93,8 +93,8 @@ class Register extends CI_Controller
 
         // receive post request from front-end
         $email = $this->input->post('email');
-        $tup_id = $this->input->post('tup_id');
-        $data = $this->Register_model->get_user($email, $tup_id);
+        $tupId = $this->input->post('tup_id');
+        $data = $this->Register_model->get_user($email, $tupId);
 
         if (!empty($data)) {
             // check if user exists within database
