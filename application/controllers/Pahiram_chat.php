@@ -22,4 +22,9 @@ class Pahiram_chat extends CI_Controller
     header('Content-type: ' . get_mime_by_extension($filename));
     echo file_get_contents($filename);
   }
+
+  public function get_chat(){
+    $this->load->model('Pahiram_chat_model');
+    echo json_encode($this->Pahiram_chat_model->get_chat());
+  }
 }

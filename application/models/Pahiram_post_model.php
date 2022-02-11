@@ -27,8 +27,8 @@ class Pahiram_post_model extends CI_Model
             );
             $query = $this->db->get_where($this->db_table, $data);
             $result = $query->result_array();
-            return $result[0];
-        } else if ($this->input->get('user_id')) {
+            return $result;
+        } else if ($this->input->get('user_id') != null) {
             $data = array(
                 'user_id' => $this->input->get('user_id'),
                 'status' => 'active'
@@ -42,8 +42,21 @@ class Pahiram_post_model extends CI_Model
 
     // create post
     public function insert()
-    {
-        return $this->db->insert($this->db_table, $this->input->post());
+    {   
+
+        $data = array(
+            'user_id' => $this->input->post('user_id'),
+            'first_name' => $this->input->post('first_name'),
+            'last_name' => $this->input->post('last_name'),
+            'type' => $this->input->post('type'),
+            'title' => $this->input->post('title'),
+            'points' => $this->input->post('points'),
+            'rate' => $this->input->post('rate'),
+            'time_posted' => $this->input->post('time_posted'),
+            'date' => $this->input->post('date'),
+            'location' => $this->input->post('location'),
+        );
+        return $this->db->insert($this->db_table, $data);
     }
 
     #NOT TESTED YET
@@ -60,7 +73,7 @@ class Pahiram_post_model extends CI_Model
         $image = base64_decode($this->input->post('image'));
         $fileExtension = pathinfo($this->input->post('image_name'), PATHINFO_EXTENSION);
         $url = "http://localhost/Team04-BSCS-NS-3A-M/Pahiram_post/get_image/?path=";
-        $path = 'uploads/chat/pahiram/' . $this->db->insert_id() . "." . $fileExtension;
+        $path = 'uploads/posts/pahiram/' . $this->db->insert_id() . "." . $fileExtension;
         file_put_contents($path, $image);
         $this->db->set('image_location', $url . $path);
         $this->db->where('post_id', $this->db->insert_id());
@@ -84,11 +97,36 @@ class Pahiram_post_model extends CI_Model
     public function get_request()
     {
         $data = array(
-            'user_id' => $this->input->get('user_id'),
+            'poster_id' => $this->input->post('user_id'),
             'status' => 'active'
         );
         $query = $this->db->get_where($this->db_request, $data);
         return $query->result_array();
+    }
+
+    public function accept_request()
+    {
+        $data = array(
+            'request_id' => $this->input->post('request_id'),
+            'status' => 'active'
+        );
+        $query = $this->db->get_where($this->db_request, $data);
+        $query = $query->result_array();
+        $this->db->set('status', 'accepted');
+        $acceptedData = array(
+            'participant_id ' => $query[0]['user_id'],
+            'participant_first_name	' => $query[0]['first_name'],
+            'participant_last_name' => $query[0]['last_name'],
+            'rate' => $query[0]['rate'],
+            'status' => 'accepted'
+        );  
+        $this->db->where('post_id', $query[0]['post_id']);
+        $this->db->update($this->db_table, $acceptedData);
+
+        $this->db->set('status', 'accepted');
+        $this->db->where('request_id', $this->input->post('request_id'));
+        $this->db->update($this->db_request);
+        return ($this->db->affected_rows() > 0) ? '200' : '409';
     }
 
     public function decline_request()

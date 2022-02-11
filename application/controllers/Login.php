@@ -14,7 +14,6 @@ class Login extends CI_Controller
         $this->load->model("Login_model");
 
         $data = $this->Login_model->get_user();
-
         $output = json_encode($data);
         echo $output;
     }
@@ -33,6 +32,7 @@ class Login extends CI_Controller
             $is_match = $this->check_password_match($password, $data['password']);
 
             if ($is_match) {
+                unset($data['password']);
                 $this->output
                     ->set_content_type('application/json')
                     ->set_output(json_encode($data));

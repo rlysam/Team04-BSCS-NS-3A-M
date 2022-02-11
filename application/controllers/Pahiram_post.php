@@ -30,7 +30,7 @@ class Pahiram_post extends CI_Controller
             if ($this->Pahiram_post_model->insert()) {
 
                 $this->output->set_status_header('201');
-                $this->Pahiram_post_model->insert_image_location();
+                $this->Pahiram_post_model->insert_image();
             } else {
                 $this->output->set_status_header('409');
             }
@@ -72,6 +72,12 @@ class Pahiram_post extends CI_Controller
         } else {
             $this->output->set_status_header('409');
         }
+    }
+
+    public function accept_request(){
+        $this->load->model("Pahiram_post_model");
+        $statusCode = $this->Pahiram_post_model->accept_request();
+        $this->output->set_status_header($statusCode);
     }
 
     public function decline_request()

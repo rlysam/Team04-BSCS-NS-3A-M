@@ -16,10 +16,6 @@ class Pasabay_post_model extends CI_Model
                 "total_pages" => $total_pages,
                 "posts" => $query->result_array()
             );
-<<<<<<< HEAD
-=======
-            return $data;
->>>>>>> 3c97378c6a8834d2e74e714b40154aec62c6f71e
         } else if ($this->input->get('post_id') != null) {
             $data = array(
                 'post_id' => $this->input->get('post_id'),
@@ -41,30 +37,37 @@ class Pasabay_post_model extends CI_Model
     }
 
     public function create_post() 
-    {
-        return $this->db->insert($this->db_table, $this->input->post());
+    {   
+        $data = array(
+            'user_id' => $this->input->post('user_id'),
+            'first_name' => $this->input->post('first_name'),
+            'last_name' => $this->input->post('last_name'),
+            'type' => $this->input->post('type'),
+            'title' => $this->input->post('title'),
+            'points' => $this->input->post('points'),
+            'rate' => $this->input->post('rate'),
+            'time_posted' => $this->input->post('time_posted'),
+            'date' => $this->input->post('date'),
+            'location' => $this->input->post('location'),
+        );
+        return $this->db->insert($this->db_table, $data);
     }
 
     #NOT TESTED YET
     public function update_post()
     {
         $this->db->where('post_id', $this->input->post('post_id'));
-        unset($this->input->post('post_id'));
+        unset($_POST['post_id']);
         return $this->db->update($this->db_table, $this->input->post());
     }
 
     //Image base64 encoding
     public function insert_image_location()
     {
-<<<<<<< HEAD
         $image = base64_decode($_POST['image']);
         $fileExtension = pathinfo($_POST['image_name'], PATHINFO_EXTENSION);
-=======
-        $image = base64_decode($this->input->post('image'));
-        $file_extension = pathinfo($this->input->post('image_name'), PATHINFO_EXTENSION);
->>>>>>> 3c97378c6a8834d2e74e714b40154aec62c6f71e
-        $url = "http://localhost/Team04-BSCS-NS-3A-M/Pasabay_chat/get_image/?path=";
-        $path = 'uploads/chat/pasabay/' . $this->db->insert_id() . "." . $fileExtension;
+        $url = "http://localhost/Team04-BSCS-NS-3A-M/Pasabay_post/get_image/?path=";
+        $path = 'uploads/posts/pasabay/' . $this->db->insert_id() . "." . $fileExtension;
         file_put_contents($path, $image);
         $this->db->set('image_location', $url . $path);
         $this->db->where('post_id', $this->db->insert_id());

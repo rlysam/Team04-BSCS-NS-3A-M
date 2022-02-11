@@ -7,6 +7,14 @@ class Pahiram_chat_model extends CI_Model
     private $db_table = 'pahiram_chat';
     private $users_table = 'users';
 
+    public function get_chat(){
+        $data = array(
+            'post_id' => $this->input->get('post_id'),
+        );
+        $query = $this->db->get_where($this->db_table, $data);
+        return $query->result_array();
+    }
+
     public function store_message()
     {
 
