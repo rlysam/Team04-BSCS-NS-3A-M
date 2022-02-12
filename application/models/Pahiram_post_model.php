@@ -11,9 +11,9 @@ class Pahiram_post_model extends CI_Model
     {
         if ($this->input->get('page') != null) {
             $totalRows  = $this->db->count_all($this->db_table);
-            $total_pages = ceil($totalRows / 10);
+            $total_pages = ceil($totalRows / 9);
             $this->db->where('status', 'active');
-            $query = $this->db->get($this->db_table, 10, ($this->input->get('page') - 1) * 10);
+            $query = $this->db->get($this->db_table, 9, ($this->input->get('page') - 1) * 9);
 
             return array(
                 "total_posts" => $totalRows,

@@ -10,9 +10,9 @@ class Pasabay_post_model extends CI_Model
     {
         if ($this->input->get('page') != null) {
             $total_rows  = $this->db->count_all($this->db_table);
-            $total_pages = ceil($total_rows / 10);
+            $total_pages = ceil($total_rows / 9);
             $this->db->where('status', 'active');
-            $query = $this->db->get($this->db_table, 10, ($this->input->get('page') - 1) * 10);
+            $query = $this->db->get($this->db_table, 9, ($this->input->get('page') - 1) * 9);
             return array(
                 "total_posts" => $total_rows,
                 "total_pages" => $total_pages,
