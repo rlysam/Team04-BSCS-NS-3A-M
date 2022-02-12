@@ -4,6 +4,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Pasabay_post_model extends CI_Model
 {
     private $db_table = "pasabay_post";
+    private $db_delivery = "pasabay_delivery";
+    private $db_request = "pasabay_request";
     public function get_post()
     {
         if ($this->input->get('page') != null) {
@@ -29,15 +31,15 @@ class Pasabay_post_model extends CI_Model
                 'user_id' => $this->input->get('user_id'),
                 'status' => 'active'
             );
-            $query = $this->db->get_where($this->db_table, $data); 
+            $query = $this->db->get_where($this->db_table, $data);
         } else {
             $query = $this->db->get($this->db_table);
         }
         return $query->result_array();
     }
 
-    public function create_post() 
-    {   
+    public function create_post()
+    {
         $data = array(
             'user_id' => $this->input->post('user_id'),
             'first_name' => $this->input->post('first_name'),
@@ -79,6 +81,57 @@ class Pasabay_post_model extends CI_Model
         $this->db->set('status', 'deactivated');
         $this->db->where('post_id', $post_id);
         $this->db->update($this->db_table);
+        return ($this->db->affected_rows() > 0) ? '200' : '409';
+    }
+
+    public function create_request()
+    {
+        return $this->db->insert($this->db_request, $this->input->post());
+    }
+
+    public function get_request()
+    {
+        $data = array(
+            'poster_id' => $this->input->post('user_id'),
+            'status' => 'active'
+        );
+        $query = $this->db->get_where($this->db_request, $data);
+        return $query->result_array();
+    }
+
+    public function accept_request()
+    {
+        $data = array(
+            'request_id' => $this->input->post('request_id'),
+            'status' => 'active'
+        );
+        $query = $this->db->get_where($this->db_request, $data);
+        $query = $query->result_array();
+        if (strcmp($query[0]['type'], 'delivery') == 0) {
+            $deliveryData = array(
+                'post_id ' => $query[0]['post_id'],
+                'requestor_id ' => $query[0]['user_id'],
+                'first_name	' => $query[0]['first_name'],
+                'last_name' => $query[0]['last_name'],
+                'destination' => $query[0]['destination'],
+                'item' => $query[0]['item'],
+                'quantity' => $query[0]['quantity'],
+                'status' => 'delivering'
+            );
+            $this->db->insert($this->db_delivery, $deliveryData);
+        } else if (strcmp($query[0]['type'], 'single_delivery') == 0) {
+            $this->db->set('status', 'accepted');
+            $this->db->where('request_id', $this->input->post('request_id'));
+            $this->db->update($this->db_request);
+        }
+        return ($this->db->affected_rows() > 0) ? '200' : '409';
+    }
+
+    public function decline_request()
+    {
+        $this->db->set('status', 'deactivated');
+        $this->db->where('request_id', $this->input->post('request_id'));
+        $this->db->update($this->db_request);
         return ($this->db->affected_rows() > 0) ? '200' : '409';
     }
 }

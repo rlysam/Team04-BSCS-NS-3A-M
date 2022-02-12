@@ -60,4 +60,35 @@ class Pasabay_post extends CI_Controller
         header('Content-type: ' . get_mime_by_extension($filename));
         echo file_get_contents($filename);
     }
+
+    public function send_request()
+    {
+        $this->load->model("Pasabay_post_model");
+        if ($this->Pasabay_post_model->create_request()) {
+            $this->output->set_status_header('201');
+        } else {
+            $this->output->set_status_header('409');
+        }
+    }
+
+    public function accept_request(){
+        $this->load->model("Pasabay_post_model");
+        $statusCode = $this->Pasabay_post_model->accept_request();
+        $this->output->set_status_header($statusCode);
+    }
+
+    public function decline_request()
+    {
+        $this->load->model("Pasabay_post_model");
+        $statusCode = $this->Pasabay_post_model->decline_request();
+        $this->output->set_status_header($statusCode);
+    }
+
+    public function get_request()
+    {
+        $this->load->model("Pasabay_post_model");
+        $data = $this->Pasabay_post_model->get_request();
+        $this->output->set_content_type('application/json');
+        echo json_encode($data);
+    }
 }
